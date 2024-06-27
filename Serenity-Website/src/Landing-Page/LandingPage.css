@@ -1,0 +1,26 @@
+@font-face {
+    font-family: welcome-font;
+    src: url('./Darling-Coffee.ttf');
+}
+body{
+    font-family: welcome-font;
+}
+.landing-page{
+    text-align: center;
+    margin-top: 200px;
+}
+
+.welcome-message{
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-family: welcome-font;
+    color: rgb(216, 42, 135);
+}
+
+.sign-up-button{
+    margin: 100px;
+}
+
+.log-in-button{
+    color: rgb(216, 42, 135);
+}
