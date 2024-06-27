@@ -1,15 +1,13 @@
 import './LandingPage.css'
 import { useNavigate } from 'react-router';
-import Header from '../Header/Header.jsx';
 
 const LandingPage = () =>{
     const navigate = useNavigate();
     const handleGetStarted = () => {
-        navigate('/signup');
+        navigate('/get-started');
     }
     return(
         <>
-        <Header />
         <div className='landing-page'>
             <h1 className='welcome-message'> Welcome to Serenity </h1>
             <button className='sign-up-button' onClick={handleGetStarted}>Get started</button>

@@ -9,7 +9,7 @@ function Header(){
             <div className='app-header'>
                 <img className='app-logo' src={appLogo} alt='web-logo'></img>
                 <img className='app-name' src={Serenity} alt='App-name'></img>
-                <button text='Email with questions or complaints'>Contact us</button>
+                <button className='contact-button'text='Email with questions or complaints'>Contact us</button>
             </div>
         </div>
         </>

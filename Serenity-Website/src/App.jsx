@@ -10,13 +10,16 @@ import SignUp from './Sign-up/SignUp.jsx'
 function App() {
 
   return (
+    <>
+    <Header />
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />}></Route>
-        <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="/get-started" element={<SignUp />}></Route>
       </Routes>
 
     </Router>
+    </>
   )
 }
 
