@@ -2,26 +2,49 @@
     font-family: welcome-font;
     src: url('./Darling-Coffee.ttf');
 }
+
 body{
     font-family: welcome-font;
 }
 .landing-page{
     text-align: center;
-    margin-top: 200px;
+    align-items: center;
+    padding: 40px;
+}
+.curved-text {
+    width: 100%;
+    margin-bottom: 2px;
+}
+.curved-text text{
+    font-size: 35px;
+    fill: rgb(255, 123, 193);
+    stroke: rgb(255, 0, 136);
+    stroke-width: 3px;
+    
 }
 
-.welcome-message{
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-family: welcome-font;
-    color: rgb(216, 42, 135);
+.mental-health-img{
+    width: 100px;
 }
 
 .sign-up-button{
-    margin: 100px;
-    color: rgb(255, 0, 136);
+    margin: 30px;
+    color: rgb(255, 0, 136)
+}
+.sign-up-button:hover{
+    color: blue;
+    border-color: red;
 }
 
-.log-in-button{
+.log-in-text{
     color: rgb(216, 42, 135);
+    margin-top: 60px;
+}
+
+.log-in-link{
+    color: rgb(15, 116, 231);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+    display: inline-block;
 }
