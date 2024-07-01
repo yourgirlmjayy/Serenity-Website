@@ -10,6 +10,7 @@ const saltRounds = 10;
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.options('*', cors());
 
 const PORT = 8080
 
@@ -25,7 +26,7 @@ app.post("/create", async (req, res) => {
       data: {
         email,
         name: name ?? null,
-        hashedPassword
+        password: hashedPassword
       }
     });
     // Return a successful response

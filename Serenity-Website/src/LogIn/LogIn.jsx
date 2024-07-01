@@ -7,6 +7,7 @@ import password_icon from '../assets/password.png'
 import hide from '../assets/hide.png'
 import view from '../assets/view.png'
 import Header from '../Header/Header'
+import { useContext } from 'react'
 
 function LogIn(){
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -14,6 +15,7 @@ function LogIn(){
     const[password, setPassword] = useState("");
     const [result, setResult] = useState("");
     const navigate = useNavigate();
+    const { updateUser } = useContext(UserContext);
     const action = "Log in"
     
     const handlePasswordVisibility = () => {
@@ -30,27 +32,35 @@ function LogIn(){
 
     const backendUrlAccess = import.meta.env.VITE_BACKEND_ADDRESS;
 
-    const handleLogin = async () => {
-    try {
-        const response = await fetch(`${backendUrlAccess}/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
-        });
+    const handleLogin = async (e) => {
+        e.preventDefault
+        try {
+            const response = await fetch(`${backendUrlAccess}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+            });
 
-        if (response.ok) {
-        setResult("Login success!");
-        } else {
-        throw new Error("Failed to login!");
+            if (response.ok) {
+                const data = await response.json();
+                const loggedInUser = data.name ?? data.email;
+
+                updateUser(loggedInUser);
+                // navigate to mood board page after successful login
+                navigate('/mood-board');
+
+            } else {
+                alert("Failed to login!");
+            }
+        } catch (error) {
+            alert('Login Failed: ' + error)
+            setResult(`Failed to login: ${error.message}`);
         }
-    } catch (error) {
-        setResult(`Failed to login: ${error.message}`);
-    }
     };
 
 
