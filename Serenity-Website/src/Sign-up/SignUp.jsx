@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './SignUp.css'
 import email_icon from '../assets/email-5-xxl.png'
 import user_icon from '../assets/person.png'
@@ -6,6 +6,7 @@ import password_icon from '../assets/password.png'
 import hide from '../assets/hide.png'
 import view from '../assets/view.png'
 import { useNavigate } from 'react-router-dom'
+// import { UserContext } from '../../../UserContext';
 
 const SignUp = ()=> {
     const [action, setAction] = useState("Sign Up");
@@ -14,6 +15,7 @@ const SignUp = ()=> {
     const [name, setName] = useState("");
     const [result, setResult] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
+    // const { updateUser } = useContext(UserContext);
     
     const navigate = useNavigate();
     const handleBackButton = () =>{
@@ -36,31 +38,72 @@ const SignUp = ()=> {
     }
 
     const backendUrl = import.meta.env.VITE_BACKEND_ADDRESS;
-    const handleCreate = async () => {
-        let response;
-    try {
-        response = await fetch(`${backendUrl}/create`, {
+
+    const handleCreate = () => {
+        fetch(`${backendUrl}/create`,
+        {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+            "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email,
-                password,
-                name: name || "", // optional field, defaults to empty string if not provided
-            }),
-            });
-    
-        if (response.ok) {
-        setResult("Create success!");
-        } else {
-        throw new Error("Failed to create!");
-        }
-    } catch (error) {
-        console.log(error.message);
-        setResult(`Failed to create: ${error.message}`);
+            email,
+            password,
+            }), 
+        })
+        .then(response => {
+            console.log(response)
+            if (response.ok) {
+            setResult("create success!");
+            }
+            else {
+            setResult("failed to create!");
+            }
+        })
+        .catch(error => {
+            setResult("failed to create!");
+        });
     }
-    };
+    // const handleCreate = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await fetch(`${backendUrl}/create`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 email,
+    //                 password,
+    //                 name: name || "", // optional field, defaults to empty string if not provided
+    //             }),
+    //             });
+        
+    //             if (response.ok) {
+    //                 const data = await response.json();
+    //                 const loggedInUser = data.name ?? data.email;
+    //                 console.log("Signup successful");
+    //                 setResult("Create success!");
+
+    //                 //reset form fields
+    //                 setName("");
+    //                 setPassword("");
+    //                 setEmail("");
+
+    //                 // //update user context
+    //                 // updateUser(loggedInUser);
+                    
+    //                 // navigate to mood board page after successful login
+    //                 navigate('/mood-board');
+
+    //             } else {
+    //                 alert("Failed to create!");
+    //             }
+    //         } catch (error) {
+    //             console.log(error.message);
+    //             setResult(`Failed to create: ${error.message}`);
+    //         }
+    //     };
 
 
     return(
