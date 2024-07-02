@@ -7,7 +7,7 @@ import password_icon from '../assets/password.png'
 import hide from '../assets/hide.png'
 import view from '../assets/view.png'
 import Header from '../Header/Header'
-import { useContext } from 'react'
+// import { useContext } from 'react'
 
 function LogIn(){
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,7 +15,7 @@ function LogIn(){
     const[password, setPassword] = useState("");
     const [result, setResult] = useState("");
     const navigate = useNavigate();
-    const { updateUser } = useContext(UserContext);
+    // const { updateUser } = useContext(UserContext);
     const action = "Log in"
     
     const handlePasswordVisibility = () => {

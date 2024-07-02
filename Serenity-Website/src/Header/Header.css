@@ -9,7 +9,9 @@
     justify-content: space-between;
 }
 .app-logo{
-  width: 130px;
+  padding-top: 10px;
+  width: 100px;
+  height: 90px;
 }
 
 .app-name{

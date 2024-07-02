@@ -1,6 +1,6 @@
 import './Header.css'
 import Serenity from './appName.jpg'
-import appLogo from './appLogo.jpg'
+import appLogo from '../assets/file.png';
 
 
 function Header(){

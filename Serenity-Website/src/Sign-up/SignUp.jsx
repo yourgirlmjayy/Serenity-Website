@@ -39,71 +39,89 @@ const SignUp = ()=> {
 
     const backendUrl = import.meta.env.VITE_BACKEND_ADDRESS;
 
-    const handleCreate = () => {
-        fetch(`${backendUrl}/create`,
-        {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-            email,
-            password,
-            }), 
-        })
-        .then(response => {
-            console.log(response)
-            if (response.ok) {
-            setResult("create success!");
-            }
-            else {
-            setResult("failed to create!");
-            }
-        })
-        .catch(error => {
-            setResult("failed to create!");
-        });
-    }
-    // const handleCreate = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await fetch(`${backendUrl}/create`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 email,
-    //                 password,
-    //                 name: name || "", // optional field, defaults to empty string if not provided
-    //             }),
-    //             });
+    const handleCreate = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const userDetails = {
+            name: name || "", // optional field, defaults to empty string if not provided
+            email: email,
+            password: password
+        }
+
+        try {
+            // make api request to backend for signup
+            const response = await fetch(`${backendUrl}/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({userDetails}),
+                credentials: 'include'
+                });
         
-    //             if (response.ok) {
-    //                 const data = await response.json();
-    //                 const loggedInUser = data.name ?? data.email;
-    //                 console.log("Signup successful");
-    //                 setResult("Create success!");
+                if (response.ok) {
+                    const data = await response.json();
+                    const loggedInUser = data.name ?? data.email;
+                    console.log("Signup successful");
+                    setResult("Create success!");
 
-    //                 //reset form fields
-    //                 setName("");
-    //                 setPassword("");
-    //                 setEmail("");
+                    //reset form fields
+                    setName("");
+                    setPassword("");
+                    setEmail("");
 
-    //                 // //update user context
-    //                 // updateUser(loggedInUser);
+                    // //update user context
+                    // updateUser(loggedInUser);
                     
-    //                 // navigate to mood board page after successful login
-    //                 navigate('/mood-board');
+                    // navigate to mood board page after successful login
+                    navigate('/mood-board');
 
-    //             } else {
-    //                 alert("Failed to create!");
-    //             }
-    //         } catch (error) {
-    //             console.log(error.message);
-    //             setResult(`Failed to create: ${error.message}`);
+                } else {
+                    // Handle signup failure case
+                    alert("Failed to create!");
+                }
+            } catch (error) {
+                console.log(error.message);
+                // Handle any network or API request errors
+                setResult(`Failed to create: ${error.message}`);
+            }
+        };
+    // const handleCreate = async (event) => {
+    //     event.stopPropagation();
+    //     event.preventDefault();
+    //     const userDetails = {
+    //         email: email,
+    //         password: password,
+    //         name: name ?? null
+    //     }
+    //     try{
+
+    //     } catch (error) {
+
+    //     }
+    //     fetch(`http://localhost:8000/create`,
+    //     {
+    //         method: "POST",
+    //         headers: {
+    //         "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({userDetails}), 
+    //         credentials: 'include'
+    //     })
+    //     .then(response => {
+    //         console.log(response)
+    //         if (response.ok) {
+    //         setResult("create success!");
     //         }
-    //     };
+    //         else {
+    //         setResult("failed to create!");
+    //         }
+    //     })
+    //     .catch(error => {
+    //         setResult("failed to create!");
+    //     });
+    // }
 
 
     return(

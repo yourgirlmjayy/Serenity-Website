@@ -6,30 +6,41 @@
 body{
     font-family: welcome-font;
 }
+
 .landing-page{
     text-align: center;
     align-items: center;
-    padding: 40px;
+    padding-top: 40px;
 }
 .curved-text {
     width: 100%;
+    height: 100hv;
+    max-width: 650px;
     margin-bottom: 2px;
 }
+
 .curved-text text{
     font-size: 35px;
     fill: rgb(255, 123, 193);
     stroke: rgb(255, 0, 136);
     stroke-width: 3px;
-    
 }
 
+.mental-health-img-div{
+    align-items: center;
+}
 .mental-health-img{
-    width: 100px;
+    width: 200px;
+    margin-bottom: 20px;
 }
 
 .sign-up-button{
+    padding: 10px 20px;
+    font-size: 16px;
     margin: 30px;
-    color: rgb(255, 0, 136)
+    color: rgb(255, 0, 136);
+    cursor: pointer;
+    transition: all 0.3 ease;
 }
 .sign-up-button:hover{
     color: blue;
@@ -47,4 +58,42 @@ body{
     text-decoration: underline;
     margin-top: 10px;
     display: inline-block;
+}
+
+@media (max-width : 768px){
+    .curved-text text{
+        font-size: 28px;
+    }
+
+    .sign-up-button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .mental-health-img{
+        width: 80px;
+    }
+
+    .tagline {
+        font-size: 20px;
+    }
+}
+
+@media (max-width : 480px){
+    .curved-text text{
+        font-size: 24px;
+    }
+
+    .sign-up-button {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .mental-health-img{
+        width: 60px;
+    }
+
+    .tagline {
+        font-size: 18px;
+    }
 }
