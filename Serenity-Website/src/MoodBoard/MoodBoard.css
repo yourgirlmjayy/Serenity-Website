@@ -1,0 +1,60 @@
+.mood-entry {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.current-date{
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: gray;
+}
+
+.mood-options{
+    display: flex;
+    justify-content: space-around;
+    margin: 100px 0;
+}
+
+.mood-button{
+    background: none;
+    border: none;
+    font-size: 34px;
+    cursor: pointer;
+    transition: color 0.3 ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mood-button.selected{
+    font-weight: bold;
+    color: rgb(84, 84, 211);
+}
+.mood-button span{
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.submit-button{
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: darkcyan;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3 ease;
+}
+
+.submit-button:hover{
+    background-color: rgb(63, 63, 255);
+}
+
+
+.success-message-show {
+    margin-top: 50px;
+    color: rgb(102, 102, 194);
+    opacity: 3;
+    transition: opacity 0.5s;
+  }

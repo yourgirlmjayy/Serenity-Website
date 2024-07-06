@@ -5,9 +5,12 @@ import LandingPage from './Landing-Page/LandingPage.jsx';
 import SignUp from './Sign-up/SignUp.jsx';
 import MoodBoard from './MoodBoard/MoodBoard.jsx';
 import LogIn from './LogIn/LogIn.jsx';
+import { UserContext } from '../../UserContext.js';
+import Preloader from './Preloader/Preloader.jsx';
 
 function App() {
   const [user, setUser] = useState(() =>{
+    
     //Retrieve user data from storage or set to null if not found
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
@@ -24,17 +27,18 @@ function App() {
 
   return (
     <> 
-      
+      <UserContext.Provider value={{ user, updateUser}}>
         <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />}></Route>
-            <Route path="/logIn" element={<LogIn />}></Route>
-            <Route path="/get-started" element={<SignUp />}></Route>
-            {/* <Route path="/mood-board"  element={<MoodBoard />}></Route> */}
-            <Route path="/mood-board" element={user ? <MoodBoard /> : <LogIn />}/>
-          </Routes>
+            <Preloader />
+            <Routes>
+              <Route path="/" element={<LandingPage />}></Route>
+              <Route path="/logIn" element={<LogIn />}></Route>
+              <Route path="/get-started" element={<SignUp />}></Route>
+              <Route path="/mood-board" element={user ? <MoodBoard /> : <LogIn />}/>
+            </Routes>
 
-        </Router>
+          </Router>
+        </UserContext.Provider>
     </>
   )
 }

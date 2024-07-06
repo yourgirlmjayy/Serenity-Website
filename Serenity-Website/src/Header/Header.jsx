@@ -1,16 +1,31 @@
 import './Header.css'
-import Serenity from './appName.jpg'
 import appLogo from '../assets/file.png';
+import React, { useContext } from 'react';
+import { logout } from '../../../backend/utils';
+import { UserContext } from '../../../UserContext';
 
 
 function Header(){
+    const { updateUser } = useContext(UserContext);
+    const handleLogOut = () => {
+    
+        try {
+            // call helper logout function
+            logout();
+            updateUser(null);
+        } catch (error){
+            console.log('Error logging out:', error.message);
+            alert('Error logging out');
+        }
+    }
+    
     return (
         <>
         <div className='banner'>
             <div className='app-header'>
-                <img className='app-logo' src={appLogo} alt='web-logo'></img>
-                <img className='app-name' src={Serenity} alt='App-name'></img>
-                <button className='contact-button'text='Email with questions or complaints'>Contact us</button>
+                <img className='app-logo' src={appLogo} alt='web-logo'/>
+                <h1 className='app-name'>Serenity 🧚🏼</h1>
+                <button className='log-out-button' onClick={handleLogOut}>Logout</button>
             </div>
         </div>
         </>

@@ -1,0 +1,11 @@
+.side-bar{
+    height: 100%;
+    width: 250px;
+    background-color: #fff3fa;
+}
+
+.side-bar-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff3fa;
+}

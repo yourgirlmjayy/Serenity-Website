@@ -1,21 +1,20 @@
 import './LogIn.css'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import email_icon from '../assets/email-5-xxl.png'
 import password_icon from '../assets/password.png'
 import hide from '../assets/hide.png'
 import view from '../assets/view.png'
-import Header from '../Header/Header'
-// import { useContext } from 'react'
+import { UserContext } from '../../../UserContext'
+import LoginIcon from '@mui/icons-material/Login';
 
 function LogIn(){
     const [passwordVisible, setPasswordVisible] = useState(false);
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
-    const [result, setResult] = useState("");
     const navigate = useNavigate();
-    // const { updateUser } = useContext(UserContext);
+    const { updateUser } = useContext(UserContext);
     const action = "Log in"
     
     const handlePasswordVisibility = () => {
@@ -30,46 +29,64 @@ function LogIn(){
         setPassword(e.target.value);
     }
 
+    let userDetails = {
+        email: "",
+        password: ""
+    }
+
     const backendUrlAccess = import.meta.env.VITE_BACKEND_ADDRESS;
+    const url = `${backendUrlAccess}/login`
+
 
     const handleLogin = async (e) => {
-        e.preventDefault
-        try {
-            const response = await fetch(`${backendUrlAccess}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-            });
+        e.preventDefault();
 
-            if (response.ok) {
+        // move on to verifying details if user types in all fields
+        if (email && password){
+            userDetails = {
+                email: email,
+                password: password
+              };
+
+            try {
+                const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userDetails),
+                credentials: 'include'
+                });
+                
+                
+                if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+
                 const data = await response.json();
-                const loggedInUser = data.name ?? data.email;
+                const { user } = data;
+                updateUser(user);
 
-                updateUser(loggedInUser);
                 // navigate to mood board page after successful login
                 navigate('/mood-board');
-
-            } else {
-                alert("Failed to login!");
-            }
-        } catch (error) {
-            alert('Login Failed: ' + error)
-            setResult(`Failed to login: ${error.message}`);
+                alert("Successfully Logged In");
+    
+            } catch (error) {
+                console.error('Error logging in:', error);
+                alert("Unsuccessful login attempt. Try again.");
+           }
+        } else {
+            alert("Please fill out all fields!");
         }
+  
     };
 
 
       return(
         <>
-        <Header />
         <div className="sign-in-container">
             <div className="header">
-                <div className="text">{action}</div>
+                <div className="text"><LoginIcon /> {action}</div>
                 <div className="underline"></div>
             </div>
             <div className="inputs">
@@ -84,7 +101,7 @@ function LogIn(){
                 </div>
             </div>
                 <div className="submit-container">
-                    <button className="submit" type="submit" onClick={handleLogin}>Log in</button>
+                    <button className="submit" type="submit" onClick={handleLogin}>Log In</button>
                 </div>
         </div>
   </>
