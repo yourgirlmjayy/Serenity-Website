@@ -63,7 +63,6 @@ export const preLoaderAnim = () => {
     )
     .from(".landing__main .text", {
       duration: 2,
-      // scale: 0,
       y: 10,
       opacity: 0,
       stagger: {
@@ -75,7 +74,6 @@ export const preLoaderAnim = () => {
       duration: 0.5,
       opacity: 0,
       delay: window.innerWidth < 763 ? -3 : -0.6,
-      // y: 80,
       stagger: {
         amount: 0.5,
       },
@@ -148,11 +146,6 @@ export const openMenu = () => {
       "-=.3"
     );
 
-  // change cursor color when nav is open
-  // tl.to(".cursor", {
-  //   delay: -1,
-  //   css: { className: "+=cursor-active" },
-  // }).to(".cursor2", { delay: -1, css: { className: "+=cursor2-active" } });
 };
 
 export const closeMenu = () => {
@@ -184,10 +177,6 @@ export const closeMenu = () => {
       duration: 0.05,
       css: { display: "none" },
     });
-
-  // tl.to(".cursor-active", {
-  //   css: { className: "+=cursor" },
-  // }).to(".cursor2-active", { css: { className: "+=cursor2" } });
 };
 
 // recurrent animations

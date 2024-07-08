@@ -77,7 +77,6 @@ async function populateDatabase() {
           }
         });
       };
-        console.log('Categories created successfully');
       } catch (error) {
         console.error('Error poulating database:', error);
       }

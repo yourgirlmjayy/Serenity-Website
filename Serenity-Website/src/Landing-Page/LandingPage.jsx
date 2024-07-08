@@ -15,10 +15,10 @@ const LandingPage = () =>{
     return(
         <>
         <div className='landing-page-container'>
-            <div className='gif-container'>
-                <img src={landing_gif}/>
+            <div className='gif-section'>
+                <img src={landing_gif} alt="Welcome" className="landing-gif" />
             </div>
-            <div className='landing-page'>
+            <div className='login-section'>
                     <svg viewBox="0 0 500 150" className="curved-text">
                         <path id="curve" d="M 50, 150 A 200, 100 0 0, 1 450,150" fill="transparent"/>
                         <text width="50">

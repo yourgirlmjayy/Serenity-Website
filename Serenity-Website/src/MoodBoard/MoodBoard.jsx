@@ -118,8 +118,6 @@ function MoodBoard (){
             
             {moodSubmitted && <button onClick={() => navigate('/past-moods')} className='view-past-moods-button'>View Your Past Moods</button>}
 
-            {/* TO DO: CREATE ROUTE FOR PAST MOODS IN APP */}
-            {/* LET PAST MOODS BE EMPTY BUT HAVER A TEXT THAT SAYS "SEEMS TYOU HAVEN'T LOGGED ANY MOOD. DO YOU WANT TO LOG ANY MOOD" */}
         </div>
         </>
     );

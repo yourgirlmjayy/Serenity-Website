@@ -16,13 +16,16 @@ body{
     align-items: center;
     height: 100vh;
 }
-.gif-container {
-    width: 100%; 
+.gif-section {
+    flex: 1;
+    background: url('../assets/backdrop.gif') no-repeat center center;
+    background-size: cover;
 }
 
-.landing-page {
-    width: 50%; 
+.login-section{
+    padding: 20px;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
