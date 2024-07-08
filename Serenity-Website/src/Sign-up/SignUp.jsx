@@ -38,6 +38,7 @@ function SignUp () {
     }
 
     const backendUrl = import.meta.env.VITE_BACKEND_ADDRESS;
+    const url = `${backendUrl}/create`
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -54,11 +55,11 @@ function SignUp () {
                 return;
               }
             
-            // If email is invalid, set error message
-            setEmailError(isEmailValid ? null : "Invalid email address");
+            // If email is invalid, notify user
+            setEmailError(isEmailValid ? null : "Invalid email address!");
             
-            //If password length is less than required, set error message
-            setPasswordError(isPasswordValid ? null : "Password must be at least 8 characters long");
+            //If password length is less than required, notify user 
+            setPasswordError(isPasswordValid ? null : "Password must be at least 8 characters long!");
             
             // Return if either validation fails
             if (!(isEmailValid && isPasswordValid)) {
@@ -74,7 +75,7 @@ function SignUp () {
 
             try {
                 // make api request to backend for signup
-                const response = await fetch(`http://localhost:8080/create`, {
+                const response = await fetch(url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -85,7 +86,7 @@ function SignUp () {
             
                     if (response.ok) {
                         const data = await response.json();
-                        const loggedInUser = data.email;
+                        const loggedInUser = data.user;
                         setResult("Create success!");
 
                         //reset form fields
@@ -123,14 +124,14 @@ function SignUp () {
                 <div className='input'>
                     <img src={email_icon} alt="email_icon" className="email-icon"/>
                     <input type="email" placeholder='Enter email Id...' onChange={handleChangeEmail} value={email}></input>
-                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                 </div>
+                    {emailError && <p style={{ color: 'red', fontFamily: 'serif' }}>{emailError}</p>}
                 <div className='input'>
                     <img src={password_icon} alt="password_icon" className="password-icon"/>
                     <input type={passwordVisible===false? "password": "text"}  placeholder='Password' onChange={handleChangePassword} value={password}></input>
                     <img className='eye-icon' src={passwordVisible===true ? view: hide} alt='hide password' onClick={handlePasswordVisibility}/>
-                    {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                 </div>
+                    {passwordError && <p style={{ color: 'red', fontFamily: 'serif' }}>{passwordError}</p>}
             </div>
                 <div className="submit-container">
                     <div className="submit" onClick={handleCreate}>Sign Up</div>

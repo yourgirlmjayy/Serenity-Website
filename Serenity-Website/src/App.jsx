@@ -13,7 +13,7 @@ function App() {
     
     //Retrieve user data from storage or set to null if not found
     const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
+    // return storedUser ? JSON.parse(storedUser) : null;
   })
 
   const updateUser = (newUser) => {

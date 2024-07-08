@@ -34,8 +34,8 @@ const authenticateToken = (req, res, next) => {
   };
 
 
-
   // Definition of the routes for user registration, logging in in and logging out
+
   // User Registration/Sign Up
   router.post("/create", async (req, res) => {
     const { email, password} = req.body;
@@ -62,7 +62,7 @@ const authenticateToken = (req, res, next) => {
         data: {email, password: hashedPassword}
       });
       // Return a successful response
-      res.status(201).json({user: newUser});
+      res.status(201).json({ user: newUser } );
     } catch (error) {
       console.error(error);
   
@@ -143,31 +143,127 @@ router.post('/logout', (req, res) => {
 
 //Log mood router
 router.post('/moodlog', authenticateToken, async (req, res) => {
+    try {
+    // Extract the mood and date from the request body
+    const { mood } = req.body;
     
-  // Extract the mood and date from the request body
-  const {mood, date} = req.body;
+   // extract user id from the token
+    const userId = req.user.id;
+    
+    if(!userId){
+        return res.status(400).json({error: 'User ID not found'});
+    }
   
- // extract user id from the token
-  const userId = req.user.id;
-  if(!userId){
-      return res.status(400).json({error: 'User ID not found'});
-  }
+    //get date without time
+    const today = new Date();
+    // set time of the day to be midnight to validate search
+    today.setHours(0, 0, 0, 0);
+    
+    // check if mood exisits for today
+    const existingMood = await prisma.userEntry.findFirst({
+      where: {
+        userId: userId, 
+        date: {gte: today, lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)}, 
+        NOT: { mood: ''}}
+    });
 
-  try {
-      const newMood = await prisma.mood.create ({
-          data: {
-              // Set the mood, date, and user ID for the new entry
-              mood,
-              date: new Date(date),
-              userId
-          }
-      });
-      res.status(201).json(newMood);
-  } catch (error) {
-      console.error(error)
-      res.status(500).json({error: 'Failed to log mood'});}
+    if (existingMood) {
+      return res.status(400).json({error: "Mood already logged for today"})
+    }
+    // create a new mood for the day 
+    const newMood = await prisma.userEntry.create ({
+        data: {
+            // create new mood entry
+            date: new Date(),
+            mood: mood,
+            userId: userId
+        }
+    });
+    res.status(201).json(newMood);
+} catch (error) {
+    console.error(error)
+    res.status(500).json({error: 'Failed to log mood'});}
   }
 )
+
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await prisma.activityCategory.findMany({
+      include : {
+        options: true
+      }
+    });
+    res.json(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    res.status(500).json({error: 'Failed to fetch categories'})
+  }
+})
+
+router.post('/log-activity', authenticateToken, async (req, res) => {
+  try {
+    // extract category and options from the request body
+    const { category, options } = req.body
+    userId = req.user.id
+
+    // check if user id exists
+    if (!userId) {
+      return res.status(400).json({error: "User ID not found!"});
+    }
+      //get date without time
+      const today = new Date();
+      // set time of the day to be midnight
+      today.setHours(0, 0, 0, 0);
+
+    //find or create the user entry for today 
+    let userEntry = await prisma.userEntry.findFirst({
+      where: {
+        userId: userId,
+        date : {
+          // use greater than or equal to(gte) and less than(lt) to ensure it's within the current day
+          gte: today,
+          lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+        }
+      }
+    })
+
+    // create new entry if no userEntry is found for that day
+    if(!userEntry) {
+      userEntry = await prisma.userEntry.create({
+        data: {
+          userId: userId,
+          date: new Date()
+        }
+      });
+    }
+
+    // Find activity options in the database that match the given category and options
+    const activityOptionsRecord = await prisma.activityOption.findMany({
+      where: {
+        option: { in: options },
+        category: { category: category }
+      }
+    });
+
+    //Create userEntry records for each selected option 
+    const newActivities = await Promise.all(activityOptionsRecord.map(option => {
+      return prisma.userEntry.update({
+        where: { id: userEntry.id },
+        data: {
+          activityOptionId: option.id
+        }
+      });
+    }));
+
+    res.status(201).json(newActivities);
+
+  } catch (error) {
+    console.error('Error logging activities:', error);
+    res.status(500).json({error: 'Failed to log activities'});
+  }
+
+})
+
 
 module.exports = router;
   

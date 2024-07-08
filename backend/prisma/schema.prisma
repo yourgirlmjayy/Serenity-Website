@@ -18,11 +18,9 @@ model User {
   email       String       @unique
   password    String
   createdAt   DateTime     @default(now())
-  updatedAt   DateTime    @default(now()) @updatedAt
+  updatedAt   DateTime     @default(now()) @updatedAt
   profile     Profile?
-  moods       Mood[]
-  activities  UserActivity[]
-  journals    Journal[]
+  entries     UserEntry[]
 }
 
 model Profile {
@@ -32,46 +30,37 @@ model Profile {
   age       Int
   birthday  DateTime
   userId    Int   @unique
-  user      User @relation(fields: [userId], references: [id])
+  user      User  @relation(fields: [userId], references: [id])
 }
 
-model Mood {
-  id      Int @id   @unique @default(autoincrement())
-  date    DateTime  @default(now())
-  mood    String
-  userId  Int
-  user    User  @relation(fields: [userId], references: [id])
-}
 
 model ActivityCategory {
-  id      Int @id   @unique @default(autoincrement())
-  name    String
-  options ActivityOption[]
+  id        Int @id   @unique @default(autoincrement())
+  category      String
+  options   ActivityOption[]
 }
 
 model ActivityOption{
   id              Int @id @unique @default(autoincrement())
-  name            String
+  option           String
   categoryId      Int
   category        ActivityCategory @relation(fields: [categoryId], references: [id])
-  userActivities  UserActivity[]
+  icon            String
+  userEntry       UserEntry[]
 }
 
-model UserActivity {
+model UserEntry {
   id                Int @id @unique @default(autoincrement())
   date              DateTime @default(now())
+  mood              String?
+  prompt            String?
+  content           String?
+  activityOptionId  Int?
+  activityOption    ActivityOption?  @relation(fields: [activityOptionId], references: [id])
   userId            Int
   user              User @relation(fields: [userId], references: [id])
-  activityOptionId  Int
-  activityOption    ActivityOption  @relation(fields: [activityOptionId], references: [id])
 }
 
-model Journal {
-  id        Int  @id   @unique @default(autoincrement())
-  date      DateTime @default(now())
-  content   String
-  userId    Int
-  user      User @relation(fields:[userId], references:[id])
-}
+
 
 

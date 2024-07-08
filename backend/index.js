@@ -1,12 +1,13 @@
 require('dotenv').config()
 const{ PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 const cookieParser = require('cookie-parser')
 
 const PORT = 8080
 
 const cors = require('cors');
 const userRoutes = require('./Routes/userRoutes.js');
+const populateDatabase = require('./populateDatabase.js');
 
 
 const express = require('express');
@@ -21,6 +22,13 @@ app.use(cors({
 
 app.use(userRoutes);
 
+const populateDB = process.env.POPULATE_DB;
+
+if(populateDB) {
+  populateDatabase().catch((e) => {
+    console.error(e);
+  })
+}
 
 // GET requests for /users -> All users
 app.get('/users', async (req, res) => {
