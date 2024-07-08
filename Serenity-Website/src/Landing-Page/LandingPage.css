@@ -18,8 +18,6 @@ body{
 }
 .gif-section {
     flex: 1;
-    background: url('../assets/backdrop.gif') no-repeat center center;
-    background-size: cover;
 }
 
 .login-section{
@@ -29,6 +27,9 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.landing-gif {
+    width: 100%;
 }
 .curved-text {
     width: 100%;
