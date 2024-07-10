@@ -3,17 +3,18 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import LandingPage from './Landing-Page/LandingPage.jsx';
 import SignUp from './Sign-up/SignUp.jsx';
-import MoodBoard from './MoodBoard/MoodBoard.jsx';
 import LogIn from './LogIn/LogIn.jsx';
+import LogMoodAndActivities from './Activities/MoodAndActivitiesLog.jsx';
+import NotFoundPage from './NotFoundPage/NotFoundPage.jsx';
 import { UserContext } from '../../UserContext.js';
 import Preloader from './Preloader/Preloader.jsx';
+
 
 function App() {
   const [user, setUser] = useState(() =>{
     
     //Retrieve user data from storage or set to null if not found
     const storedUser = localStorage.getItem('user');
-    // return storedUser ? JSON.parse(storedUser) : null;
   })
 
   const updateUser = (newUser) => {
@@ -22,7 +23,6 @@ function App() {
 
   useEffect (() => {
     // save the user data to storage whenever use state changes
-    localStorage.setItem('user', JSON.stringify(user));
   }, [user]);
 
   return (
@@ -34,7 +34,8 @@ function App() {
               <Route path="/" element={<LandingPage />}></Route>
               <Route path="/logIn" element={<LogIn />}></Route>
               <Route path="/get-started" element={<SignUp />}></Route>
-              <Route path="/mood-board" element={user ? <MoodBoard /> : <LogIn />}/>
+              <Route path="/mood-and-activities" element={<LogMoodAndActivities />}/>
+              <Route path='*' element={<NotFoundPage />}/>
             </Routes>
 
           </Router>

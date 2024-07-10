@@ -68,11 +68,11 @@ function LogIn(){
                 updateUser(user);
 
                 // navigate to mood board page after successful login
-                navigate('/mood-board');
+                navigate('/mood-and-activities');
                 alert("Successfully Logged In");
     
             } catch (error) {
-                console.error('Error logging in:', error);
+                console.error('Error logging in:', error.message);
                 alert("Unsuccessful login attempt. Try again.");
            }
         } else {

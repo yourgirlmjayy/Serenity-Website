@@ -1,0 +1,13 @@
+.entry-button{
+    align-items: center;
+    border-radius: 8px;
+    border-width: 7px;
+    width: 200px;
+    border-color: rgb(33, 106, 185);
+    background-color: transparent;
+}
+.entry-button-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

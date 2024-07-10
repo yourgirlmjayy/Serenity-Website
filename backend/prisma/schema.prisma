@@ -33,34 +33,52 @@ model Profile {
   user      User  @relation(fields: [userId], references: [id])
 }
 
+model Mood {
+  id          Int @id @unique @default(autoincrement())
+  mood        String
+  userEntryId Int
+  userEntry   UserEntry @relation(fields: [userEntryId], references: [id])
+}
+
+model Journal {
+  id            Int @id @unique @default(autoincrement())
+  prompt        String
+  content       String
+  userEntryId   Int
+  userEntry     UserEntry @relation(fields: [userEntryId], references: [id])
+}
 
 model ActivityCategory {
-  id        Int @id   @unique @default(autoincrement())
+  id            Int @id   @unique @default(autoincrement())
   category      String
-  options   ActivityOption[]
+  options       ActivityOption[]
 }
 
 model ActivityOption{
-  id              Int @id @unique @default(autoincrement())
-  option           String
-  categoryId      Int
-  category        ActivityCategory @relation(fields: [categoryId], references: [id])
-  icon            String
-  userEntry       UserEntry[]
+  id                Int @id @unique @default(autoincrement())
+  option            String
+  categoryId        Int
+  category          ActivityCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  icon              String
+  userActivities    UserActivity[]
+}
+
+model UserActivity {
+  id                Int @id @unique @default(autoincrement())
+  userEntryId       Int
+  userEntry         UserEntry @relation(fields: [userEntryId], references: [id])
+  activityOptionId  Int
+  activityOption    ActivityOption @relation(fields: [activityOptionId], references: [id])
 }
 
 model UserEntry {
-  id                Int @id @unique @default(autoincrement())
-  date              DateTime @default(now())
-  mood              String?
-  prompt            String?
-  content           String?
-  activityOptionId  Int?
-  activityOption    ActivityOption?  @relation(fields: [activityOptionId], references: [id])
+  id                Int           @id @unique @default(autoincrement())
+  date              DateTime      @default(now())
+  moods             Mood[]
+  journals          Journal[]
+  activities        UserActivity[]
   userId            Int
-  user              User @relation(fields: [userId], references: [id])
+  user              User           @relation(fields: [userId], references: [id])
 }
-
-
 
 

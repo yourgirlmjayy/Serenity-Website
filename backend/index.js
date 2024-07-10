@@ -6,8 +6,9 @@ const cookieParser = require('cookie-parser')
 const PORT = 8080
 
 const cors = require('cors');
-const userRoutes = require('./Routes/userRoutes.js');
-const populateDatabase = require('./populateDatabase.js');
+const userAuthRoutes = require('./Routes/userAuth.js');
+const userEntries= require('./Routes/entries.js');
+const userFeed = require('./Routes/userFeed.js');
 
 
 const express = require('express');
@@ -20,15 +21,9 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(userRoutes);
-
-const populateDB = process.env.POPULATE_DB;
-
-if(populateDB) {
-  populateDatabase().catch((e) => {
-    console.error(e);
-  })
-}
+app.use(userAuthRoutes);
+app.use(userEntries);
+app.use(userFeed);
 
 // GET requests for /users -> All users
 app.get('/users', async (req, res) => {
