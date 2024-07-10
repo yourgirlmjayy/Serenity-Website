@@ -1,5 +1,7 @@
 import './UserFeed.css';
 import React, { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSmileWink } from '@fortawesome/free-solid-svg-icons';
 
 function UserFeed () {
     const [userEntries, setUserEntries] = useState([]);
@@ -31,7 +33,7 @@ function UserFeed () {
 
     return (
         <div className="user-feed">
-            <h2>Catch up!</h2>
+            <h2>Get Caught Up  <FontAwesomeIcon icon={faSmileWink}/></h2>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="entries-list">
                 {userEntries.map(entry => (
@@ -39,7 +41,7 @@ function UserFeed () {
                         <h3>{new Date(entry.date).toLocaleDateString()}</h3>
                         <p>Mood: {entry.moods.map(mood=> mood.mood).join(', ')}</p>
                         <p>Activities: {entry.activities.map(activity => activity.activityOption.option).join(', ')}</p>
-                        <p>Journal: {entry.journals.map(journal => journal.content).join(',')}</p>
+                        <p>Journal: {entry.journals.map(journal => journal.content).join(', ')}</p>
                     </div>
                 ))}
             </div>

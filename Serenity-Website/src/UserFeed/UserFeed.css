@@ -1,0 +1,48 @@
+@font-face {
+    font-family: sarlotte;
+    src: url('../assets/Sarlotte.otf');
+}
+.user-feed{
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: sarlotte;
+}
+
+.user-feed h2{
+    text-align: center;
+    color: rgb(17, 58, 146);
+    margin-bottom: 20px;
+}
+
+.entries-list {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.entry-item h3{
+    margin: 0;
+    color: #666;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.entry-item p {
+    margin: 0;
+    color: #444;
+    font-size: 1em;
+}
+
+.error-message{
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+}
