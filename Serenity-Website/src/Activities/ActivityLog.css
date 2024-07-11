@@ -1,0 +1,66 @@
+@font-face {
+    font-family: sarlotte;
+    src: url('../assets/Sarlotte.otf');
+}
+
+.activities-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: sarlotte;
+}
+
+.activities-page h2{
+    text-align: center;
+    font-size: 1.5rem;
+    color: rgb(17, 58, 146);
+    margin-bottom: 20px;
+}
+
+.category{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.category h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.option-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    border: 4px solid #4794ff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.option-button:hover {
+    border-color: #ff6347;
+    cursor: pointer;
+}
+.option-button.selected{
+    color: rgb(18, 19, 19);
+    border-color: #006b30;
+    border-width: 5px;
+    border-radius: 11px;
+
+}
+.options-container button span{
+    border-radius: #ff6347;
+    margin-left: 5px;
+}
+

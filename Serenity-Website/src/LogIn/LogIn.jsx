@@ -1,94 +1,129 @@
-import './LogIn.css'
-import React from 'react'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import email_icon from '../assets/email-5-xxl.png'
-import password_icon from '../assets/password.png'
-import hide from '../assets/hide.png'
-import view from '../assets/view.png'
-import Header from '../Header/Header'
-import { useContext } from 'react'
+import "./LogIn.css";
+import React from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import email_icon from "../assets/email-5-xxl.png";
+import password_icon from "../assets/password.png";
+import hide from "../assets/hide.png";
+import view from "../assets/view.png";
+import { UserContext } from "../../../UserContext";
+import LoginIcon from "@mui/icons-material/Login";
 
-function LogIn(){
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const[email, setEmail] = useState("");
-    const[password, setPassword] = useState("");
-    const [result, setResult] = useState("");
-    const navigate = useNavigate();
-    const { updateUser } = useContext(UserContext);
-    const action = "Log in"
-    
-    const handlePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-      }
+function LogIn() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { updateUser } = useContext(UserContext);
+  const action = "Log in";
 
-    const handleChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
-    const handleChangePassword = (e) => {
-        setPassword(e.target.value);
-    }
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
 
-    const backendUrlAccess = import.meta.env.VITE_BACKEND_ADDRESS;
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
-    const handleLogin = async (e) => {
-        e.preventDefault
-        try {
-            const response = await fetch(`${backendUrlAccess}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-            });
+  let userDetails = {
+    email: "",
+    password: "",
+  };
 
-            if (response.ok) {
-                const data = await response.json();
-                const loggedInUser = data.name ?? data.email;
+  const backendUrlAccess = import.meta.env.VITE_BACKEND_ADDRESS;
+  const url = `${backendUrlAccess}/login`;
 
-                updateUser(loggedInUser);
-                // navigate to mood board page after successful login
-                navigate('/mood-board');
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-            } else {
-                alert("Failed to login!");
-            }
-        } catch (error) {
-            alert('Login Failed: ' + error)
-            setResult(`Failed to login: ${error.message}`);
+    // move on to verifying details if user types in all fields
+    if (email && password) {
+      userDetails = {
+        email: email,
+        password: password,
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userDetails),
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Login failed");
         }
-    };
 
+        const data = await response.json();
+        const { user } = data;
+        updateUser(user);
 
-      return(
-        <>
-        <Header />
-        <div className="sign-in-container">
-            <div className="header">
-                <div className="text">{action}</div>
-                <div className="underline"></div>
-            </div>
-            <div className="inputs">
-                <div className='input'>
-                    <img src={email_icon} alt="email_icon" className="email-icon"/>
-                    <input type="email" placeholder='Enter email Id...' onChange={handleChangeEmail} value={email}></input>
-                </div>
-                <div className='input'>
-                    <img src={password_icon} alt="password_icon" className="password-icon"/>
-                    <input type={passwordVisible===false? "password": "text"}  placeholder='Password' onChange={handleChangePassword} value={password}></input>
-                    <img className='eye-icon' src={passwordVisible===true ? view: hide} alt='hide password' onClick={handlePasswordVisibility}/>
-                </div>
-            </div>
-                <div className="submit-container">
-                    <button className="submit" type="submit" onClick={handleLogin}>Log in</button>
-                </div>
+        // navigate to mood board page after successful login
+        navigate("/mood-and-activities");
+        alert("Successfully Logged In");
+      } catch (error) {
+        console.error("Error logging in:", error.message);
+        alert("Unsuccessful login attempt. Try again.");
+      }
+    } else {
+      alert("Please fill out all fields!");
+    }
+  };
+
+  return (
+    <>
+      <div className="sign-in-container">
+        <div className="header">
+          <div className="text">
+            <LoginIcon /> {action}
+          </div>
+          <div className="underline"></div>
         </div>
-  </>
-    )
+        <div className="inputs">
+          <div className="input">
+            <img src={email_icon} alt="email_icon" className="email-icon" />
+            <input
+              type="email"
+              placeholder="Enter email Id..."
+              onChange={handleChangeEmail}
+              value={email}
+            ></input>
+          </div>
+          <div className="input">
+            <img
+              src={password_icon}
+              alt="password_icon"
+              className="password-icon"
+            />
+            <input
+              type={passwordVisible === false ? "password" : "text"}
+              placeholder="Password"
+              onChange={handleChangePassword}
+              value={password}
+            ></input>
+            <img
+              className="eye-icon"
+              src={passwordVisible === true ? view : hide}
+              alt="hide password"
+              onClick={handlePasswordVisibility}
+            />
+          </div>
+        </div>
+        <div className="submit-container">
+          <button className="submit" type="submit" onClick={handleLogin}>
+            Log In
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default LogIn;

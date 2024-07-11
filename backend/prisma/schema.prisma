@@ -16,64 +16,69 @@ datasource db {
 model User {
   id          Int          @id @unique @default(autoincrement())
   email       String       @unique
-  name        String?
   password    String
-  personality String?
   createdAt   DateTime     @default(now())
-  moodBoards  MoodBoard[]
-  roomMembers RoomMember[]
-  responses   Response[]
-  playlists   Playlist[]
-  House       House?       @relation(fields: [houseId], references: [id])
-  houseId     Int?
+  updatedAt   DateTime     @default(now()) @updatedAt
+  profile     Profile?
+  entries     UserEntry[]
 }
 
-model House {
-  id    Int    @id @unique @default(autoincrement())
-  name  String
-  rooms Room[]
-  users User[]
+model Profile {
+  id        Int   @id @unique @default(autoincrement())
+  name      String
+  bio       String 
+  age       Int
+  birthday  DateTime
+  userId    Int   @unique
+  user      User  @relation(fields: [userId], references: [id])
 }
 
-model Room {
-  id          Int          @id @unique @default(autoincrement())
-  name        String
-  houseId     Int
-  house       House        @relation(fields: [houseId], references: [id])
-  roomMembers RoomMember[]
-  responses   Response[]
+model Mood {
+  id          Int @id @unique @default(autoincrement())
+  mood        String
+  userEntryId Int
+  userEntry   UserEntry @relation(fields: [userEntryId], references: [id])
 }
 
-model RoomMember {
-  id     Int  @id @unique @default(autoincrement())
-  userId Int
-  roomId Int
-  user   User @relation(fields: [userId], references: [id])
-  room   Room @relation(fields: [roomId], references: [id])
+model Journal {
+  id            Int @id @unique @default(autoincrement())
+  prompt        String
+  content       String
+  userEntryId   Int
+  userEntry     UserEntry @relation(fields: [userEntryId], references: [id])
 }
 
-model Response {
-  id      Int    @id @default(autoincrement())
-  content String
-  userId  Int
-  roomId  Int
-  user    User   @relation(fields: [userId], references: [id])
-  room    Room   @relation(fields: [roomId], references: [id])
+model ActivityCategory {
+  id            Int @id   @unique @default(autoincrement())
+  category      String
+  options       ActivityOption[]
 }
 
-model MoodBoard {
-  id       Int      @id @default(autoincrement())
-  moodType String // e.g., angry, upset, anxious content 
-  gifUrl   String?
-  date     DateTime @default(now())
-  userId   Int
-  user     User     @relation(fields: [userId], references: [id])
+model ActivityOption{
+  id                Int @id @unique @default(autoincrement())
+  option            String
+  categoryId        Int
+  category          ActivityCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  icon              String
+  userActivities    UserActivity[]
 }
 
-model Playlist {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  date       DateTime @default(now())
-  spotifyUrl String // URL to the Spotify playlist 
-  user       User     @relation(fields: [userId], references: [id])
+model UserActivity {
+  id                Int @id @unique @default(autoincrement())
+  userEntryId       Int
+  userEntry         UserEntry @relation(fields: [userEntryId], references: [id])
+  activityOptionId  Int
+  activityOption    ActivityOption @relation(fields: [activityOptionId], references: [id])
 }
+
+model UserEntry {
+  id                Int           @id @unique @default(autoincrement())
+  date              DateTime      @default(now())
+  moods             Mood[]
+  journals          Journal[]
+  activities        UserActivity[]
+  userId            Int
+  user              User           @relation(fields: [userId], references: [id])
+}
+
+
