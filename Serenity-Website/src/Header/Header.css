@@ -1,56 +1,55 @@
 @font-face {
   font-family: header-font;
-  src: url('../assets/AestheticMonoline.otf');
+  src: url("../assets/AestheticMonoline.otf");
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
 }
 
-
-.banner{
+.banner {
   background-color: #72a0c1;
   width: 101%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.app-header{
-    display: flex;
-    justify-content: space-between;
+.app-header {
+  display: flex;
+  justify-content: space-between;
 }
-.app-logo{
+.app-logo {
   padding-top: 10px;
   width: 100px;
   height: 90px;
   padding-bottom: 5px;
 }
 
-.app-name{
+.app-name {
   font-size: 30px;
   color: #4169e1;
   text-transform: uppercase;
   padding: 10px;
 }
-.log-out-button{
+.log-out-button {
   border: 1px solid transparent;
 }
 .log-out-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: sans-serif;
-    color: #4169e1;
-    background-color: transparent;
-    transition: border-color 0.25s;
-  }
-  .log-out-button:hover {
-    cursor: pointer;
-    color: rgb(20, 138, 228);
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 2px auto -webkit-focus-ring-color;
-  }
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: sans-serif;
+  color: #4169e1;
+  background-color: transparent;
+  transition: border-color 0.25s;
+}
+.log-out-button:hover {
+  cursor: pointer;
+  color: rgb(20, 138, 228);
+}
+button:focus,
+button:focus-visible {
+  outline: 2px auto -webkit-focus-ring-color;
+}

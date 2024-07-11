@@ -1,106 +1,105 @@
 @font-face {
-    font-family: sarlotte;
-    src: url('../assets/Sarlotte.otf');
+  font-family: sarlotte;
+  src: url("../assets/Sarlotte.otf");
 }
 @font-face {
-    font-family: monoline;
-    src: url('../assets/AestheticMonoline.otf');
-  }
+  font-family: monoline;
+  src: url("../assets/AestheticMonoline.otf");
+}
 
 .mood-entry {
-    text-align: center;
-    margin-top: 50px;
-    font-family: sarlotte;
+  text-align: center;
+  margin-top: 50px;
+  font-family: sarlotte;
 }
 
-.prompt{
-    font-size: 30px;
-    font-weight: 400;
-    font-style: bold;
-    color: rgb(17, 58, 146);
+.prompt {
+  font-size: 30px;
+  font-weight: 400;
+  font-style: bold;
+  color: rgb(17, 58, 146);
 }
-.current-date{
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: gray;
+.current-date {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: gray;
 }
 
 .back-button {
-    top: 0;
-    left: 0;
-    color: rgb(51, 49, 49);
-    background-color: transparent;
-    border: 1px solid #0535c4;
-    border-radius: 70px;
-  }
-
-.back-button:hover{
-    color: red;
-    border: 2px solid #0535c4;
+  top: 0;
+  left: 0;
+  color: rgb(51, 49, 49);
+  background-color: transparent;
+  border: 1px solid #0535c4;
+  border-radius: 70px;
 }
 
-.mood-options{
-    display: flex;
-    justify-content: space-around;
-    margin: 100px 0;
+.back-button:hover {
+  color: red;
+  border: 2px solid #0535c4;
 }
 
-.mood-button{
-    background: none;
-    border: none;
-    font-size: 34px;
-    cursor: pointer;
-    transition: color 0.3 ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: #0572df;
+.mood-options {
+  display: flex;
+  justify-content: space-around;
+  margin: 100px 0;
 }
 
-.mood-button:hover{
-    color: #0535c4;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease-in-out;
+.mood-button {
+  background: none;
+  border: none;
+  font-size: 34px;
+  cursor: pointer;
+  transition: color 0.3 ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #0572df;
 }
 
-.mood-button.selected{
-    font-weight: bold;
-    color: rgb(63, 63, 255);
+.mood-button:hover {
+  color: #0535c4;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in-out;
 }
 
-.mood-button span{
-    font-size: 18px;
-    margin-top: 10px;
+.mood-button.selected {
+  font-weight: bold;
+  color: rgb(63, 63, 255);
 }
 
-.submit-button{
-    margin-top: 120px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: darkcyan;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3 ease;
+.mood-button span {
+  font-size: 18px;
+  margin-top: 10px;
 }
 
-.submit-button:hover{
-    background-color: rgb(63, 63, 255);
+.submit-button {
+  margin-top: 120px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: darkcyan;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3 ease;
 }
 
+.submit-button:hover {
+  background-color: rgb(63, 63, 255);
+}
 
 .success-message {
-    margin-top: 50px;
-    color: green;
-    opacity: 3;
-    transition: opacity 0.5s;
-
-  }
+  margin-top: 50px;
+  color: green;
+  opacity: 3;
+  transition: opacity 0.5s;
+}
 
 .error-message {
-    color: red;
-    margin-top: 50px;
+  color: red;
+  margin-top: 50px;
 }

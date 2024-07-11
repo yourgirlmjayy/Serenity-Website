@@ -1,122 +1,122 @@
 @font-face {
-    font-family: welcome-font;
-    src: url('./Darling-Coffee.ttf');
+  font-family: welcome-font;
+  src: url("./Darling-Coffee.ttf");
 }
 
-body{
-    font-family: welcome-font;
-    margin: 0;
-    padding: 0;
+body {
+  font-family: welcome-font;
+  margin: 0;
+  padding: 0;
 }
 
 .landing-page-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .gif-section {
-    flex: 1;
+  flex: 1;
 }
 
-.login-section{
-    padding: 20px;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.login-section {
+  padding: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .landing-gif {
-    width: 100%;
+  width: 100%;
 }
 .curved-text {
-    width: 100%;
-    height: 100hv;
-    max-width: 650px;
-    margin-bottom: 2px;
+  width: 100%;
+  height: 100hv;
+  max-width: 650px;
+  margin-bottom: 2px;
 }
 
-.curved-text text{
-    font-size: 35px;
-    fill: #5aacff;
-    stroke: #4169e1;
-    stroke-width: 3px;
+.curved-text text {
+  font-size: 35px;
+  fill: #5aacff;
+  stroke: #4169e1;
+  stroke-width: 3px;
 }
 
-.mental-health-img-div{
-    align-items: center;
+.mental-health-img-div {
+  align-items: center;
 }
-.mental-health-img{
-    width: 200px;
-    margin-bottom: 20px;
-}
-
-.sign-up-button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 220px;
-    height: 59px;
-    color: #fff;
-    background: #8b9dc3;
-    border-radius: 20px;
-    border: transparent;
-    font-size: 19px;
-    font-weight: 300;
-    cursor: pointer;
+.mental-health-img {
+  width: 200px;
+  margin-bottom: 20px;
 }
 
-.sign-up-button:hover{
-    background-color: #3b5998;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease-in-out;
+.sign-up-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;
+  height: 59px;
+  color: #fff;
+  background: #8b9dc3;
+  border-radius: 20px;
+  border: transparent;
+  font-size: 19px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.sign-up-button:hover {
+  background-color: #3b5998;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in-out;
 }
 
 .button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    gap: 10px;
-  }
-
-@media (max-width : 768px){
-    .curved-text text{
-        font-size: 28px;
-    }
-
-    .sign-up-button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .mental-health-img{
-        width: 80px;
-    }
-
-    .tagline {
-        font-size: 20px;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  gap: 10px;
 }
 
-@media (max-width : 480px){
-    .curved-text text{
-        font-size: 24px;
-    }
+@media (max-width: 768px) {
+  .curved-text text {
+    font-size: 28px;
+  }
 
-    .sign-up-button {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
+  .sign-up-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 
-    .mental-health-img{
-        width: 60px;
-    }
+  .mental-health-img {
+    width: 80px;
+  }
 
-    .tagline {
-        font-size: 18px;
-    }
+  .tagline {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .curved-text text {
+    font-size: 24px;
+  }
+
+  .sign-up-button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .mental-health-img {
+    width: 60px;
+  }
+
+  .tagline {
+    font-size: 18px;
+  }
 }

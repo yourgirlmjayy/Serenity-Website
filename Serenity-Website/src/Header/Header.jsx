@@ -1,16 +1,19 @@
 import "./Header.css";
 import appLogo from "../assets/file.png";
 import React, { useContext } from "react";
-import { logout } from "../../../backend/utils";
+import { logout } from "../logout";
 import { UserContext } from "../../../UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
   const { updateUser } = useContext(UserContext);
   const handleLogOut = async () => {
     try {
       // call helper logout function
       logout();
       updateUser(null);
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error.message);
       alert("Error logging out");
