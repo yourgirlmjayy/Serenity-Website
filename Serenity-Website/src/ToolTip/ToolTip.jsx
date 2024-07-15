@@ -12,7 +12,7 @@ const ToolTip = ({ children, text, duration = 5000 }) => {
   };
 
   return (
-    <div className="tooltip-container">
+    <div className="tooltip-container" onMouseEnter={showToolTip}>
       {children}
       {isVisible && <div className="tooltip-text">{text}</div>}
     </div>
