@@ -71,10 +71,7 @@ function LogMoodAndActivities() {
         <MoodLog setMood={setMood} />
         <ActivityLog setActivities={setActivities} />
         <div className="entry-button-container">
-          <ToolTip
-            text="Click this button to log all activities and mood for the day"
-            duration={5000}
-          >
+          <ToolTip text="Click this button to log all activities and mood for the day">
             <button className="entry-button" onClick={handleSubmit}>
               Log Mood and Activities
             </button>

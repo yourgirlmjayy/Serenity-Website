@@ -126,7 +126,7 @@ const ProfilePage = () => {
               onChange={handleChange}
             />
           </div>
-          <ToolTip text="Click to save your profile settings" duration={5000}>
+          <ToolTip text="Click to save your profile settings">
             <button type="submit" onClick={handleSubmit}>
               Submit
             </button>
