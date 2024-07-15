@@ -151,7 +151,7 @@ function UserFeed() {
         <div className="entries-list">
           {userEntries.length === 0 ? (
             <div className="empty-feed">
-              <ToolTip text="Click to log mood and activities">
+              <ToolTip text="Click to log mood and activities" duration={5000}>
                 <button onClick={handlePlusClick} className="plus-button">
                   <FontAwesomeIcon icon={faCirclePlus} size="2x" />
                 </button>
