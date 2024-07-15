@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Profile.css";
 import Header from "../Header/Header";
 import { useSidebar } from "../sidebarcontext/SidebarContext";
+import ToolTip from "../ToolTip/ToolTip";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
@@ -125,9 +126,11 @@ const ProfilePage = () => {
               onChange={handleChange}
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>
-            Submit
-          </button>
+          <ToolTip text="Click to save your profile settings">
+            <button type="submit" onClick={handleSubmit}>
+              Submit
+            </button>
+          </ToolTip>
         </form>
         {message && <p>{message}</p>}
       </div>

@@ -5,6 +5,7 @@ import "./MoodAndActivities.css";
 import ActivityLog from "./ActivityLog";
 import Header from "../Header/Header";
 import { useSidebar } from "../sidebarcontext/SidebarContext";
+import ToolTip from "../ToolTip/ToolTip";
 
 function LogMoodAndActivities() {
   const [mood, setMood] = useState(null);
@@ -70,9 +71,11 @@ function LogMoodAndActivities() {
         <MoodLog setMood={setMood} />
         <ActivityLog setActivities={setActivities} />
         <div className="entry-button-container">
-          <button className="entry-button" onClick={handleSubmit}>
-            Log Mood and Activities
-          </button>
+          <ToolTip text="Click this button to log all activities and mood for the day">
+            <button className="entry-button" onClick={handleSubmit}>
+              Log Mood and Activities
+            </button>
+          </ToolTip>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
