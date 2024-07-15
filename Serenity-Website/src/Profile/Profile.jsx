@@ -28,14 +28,7 @@ const ProfilePage = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          setProfile({
-            name: data.name || "",
-            bio: data.bio || "",
-            age: data.age || "",
-            birthday: data.birthday
-              ? newDate(data.birthday).toISOString().split("T")[0]
-              : null,
-          });
+          setProfile(data);
         } else if (response.status === 404) {
           setProfile({
             name: "",
@@ -43,7 +36,7 @@ const ProfilePage = () => {
             age: "",
             birthday: null,
           });
-          setMessage("You don't have a profile, you can create one");
+          setMessage("Create a profile");
         } else {
           setMessage("Failed to Fetch Profile");
         }
