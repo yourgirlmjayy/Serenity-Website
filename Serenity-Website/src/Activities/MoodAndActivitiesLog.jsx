@@ -4,12 +4,15 @@ import MoodLog from "../MoodLog/MoodLog";
 import "./MoodAndActivities.css";
 import ActivityLog from "./ActivityLog";
 import Header from "../Header/Header";
+import { useSidebar } from "../sidebarcontext/SidebarContext";
+import ToolTip from "../ToolTip/ToolTip";
 
 function LogMoodAndActivities() {
   const [mood, setMood] = useState(null);
   const [activities, setActivities] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   const backendURl = import.meta.env.VITE_BACKEND_ADDRESS;
   const url = `${backendURl}/log-mood-activity`;
@@ -62,12 +65,18 @@ function LogMoodAndActivities() {
   return (
     <>
       <Header />
-      <div className="mood-and-activities-page">
+      <div
+        className={`mood-and-activities-page ${isSidebarOpen ? "shifted" : ""}`}
+      >
         <MoodLog setMood={setMood} />
         <ActivityLog setActivities={setActivities} />
-        <button className="entry-button" onClick={handleSubmit}>
-          Log Mood and Activities
-        </button>
+        <div className="entry-button-container">
+          <ToolTip text="Click this button to log all activities and mood for the day">
+            <button className="entry-button" onClick={handleSubmit}>
+              Log Mood and Activities
+            </button>
+          </ToolTip>
+        </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
       </div>

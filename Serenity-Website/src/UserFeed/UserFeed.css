@@ -3,19 +3,83 @@
   src: url("../assets/Sarlotte.otf");
 }
 .user-feed {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: sarlotte;
+  color: #3d6a9b;
+}
+
+.user-feed.shifted {
+  margin-left: 255px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .user-feed h2 {
   text-align: center;
   color: rgb(17, 58, 146);
   margin-bottom: 20px;
+}
+
+.empty-feed {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.plus-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(2, 80, 158);
+  margin-bottom: 2px;
+  font-size: 3rem;
+}
+
+.plus-button:hover {
+  color: darkgreen;
+}
+
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.modal-button:hover {
+  background-color: #0056b3;
+}
+
+.modal-button-cancel {
+  background-color: #e94846;
+}
+
+.modal-button-cancel:hover {
+  background-color: #b82323;
 }
 
 .entries-list {
@@ -26,6 +90,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  color: #3d6a9b;
 }
 
 .entry-item h3 {
@@ -41,8 +106,89 @@
   font-size: 1em;
 }
 
+.entries-list {
+  margin-top: 20px;
+}
+
+.entry-item {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 .error-message {
   color: red;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  margin-top: 1px;
+  font-size: 12px;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.date {
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.entry-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.mood p {
+  color: #3d6a9b;
+}
+
+.mood-icon {
+  color: dodgerblue;
+  font-size: 2rem;
+}
+
+.wink-icon {
+  background-color: #d8eefe;
+  color: rgba(30, 9, 168, 0.268);
+}
+
+.entry-content .mood,
+.entry-content .activities,
+.entry-content .journal {
+  margin-bottom: 10px;
+}
+
+.activities ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.activities li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-top: 15px;
+  border: transparent;
+  border-radius: 6px;
+  font-style: italic;
+  color: #3d6a9b;
+}
+
+.activity-icon {
+  margin-right: 5px;
+  color: lightskyblue;
+}
+
+.journal span {
+  display: inline-block;
+  margin-right: 10px;
 }

@@ -20,21 +20,23 @@ body {
   flex: 1;
 }
 
+.landing-gif {
+  width: 100%;
+  height: auto;
+}
+
 .login-section {
-  padding: 0;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
-.landing-gif {
-  width: 100%;
-}
+
 .curved-text {
   width: 100%;
-  height: 100hv;
-  max-width: 650px;
+  height: auto;
   margin-bottom: 2px;
 }
 
@@ -53,6 +55,14 @@ body {
   margin-bottom: 20px;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  gap: 10px;
+}
+
 .sign-up-button {
   display: flex;
   justify-content: center;
@@ -66,21 +76,12 @@ body {
   font-size: 19px;
   font-weight: 300;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .sign-up-button:hover {
   background-color: #3b5998;
-  cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease-in-out;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  gap: 10px;
 }
 
 @media (max-width: 768px) {
@@ -94,7 +95,7 @@ body {
   }
 
   .mental-health-img {
-    width: 80px;
+    width: 100px;
   }
 
   .tagline {
@@ -115,7 +116,9 @@ body {
   .mental-health-img {
     width: 60px;
   }
-
+  .button-container {
+    gap: 8px;
+  }
   .tagline {
     font-size: 18px;
   }

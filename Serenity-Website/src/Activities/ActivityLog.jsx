@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./ActivityLog.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faBed,
   faBedPulse,
   faUserGroup,
   faHeart,
+  faPeopleRoof,
   faChampagneGlasses,
   faUser,
   faTv,
@@ -33,13 +33,39 @@ import {
   faPersonRunning,
   faBaseball,
 } from "@fortawesome/free-solid-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { colors } from "@mui/material";
 
 function ActivityLog({ setActivities }) {
   const [categories, setCategories] = useState([]);
   const [selectedActivities, setSelectedActivities] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const iconMap = {
+    faBed: faBed,
+    faBed: faBed,
+    faBedPulse: faBedPulse,
+    faBedPulse: faBedPulse,
+    faUserGroup: faUserGroup,
+    faPeopleRoof: faPeopleRoof,
+    faHeart: faHeart,
+    faChampagneGlasses: faChampagneGlasses,
+    faUser: faUser,
+    faTV: faTv,
+    faBook: faBook,
+    faGamepad: faGamepad,
+    faCouch: faCouch,
+    faIceCream: faIceCream,
+    faBurger: faBurger,
+    faUtensils: faUtensils,
+    faBowlRice: faBowlRice,
+    faCarrot: faCarrot,
+    faSun: faSun,
+    faCloudRain: faCloudRain,
+    faWind: faWind,
+    faBicycle: faBicycle,
+    faPersonSwimming: faPersonSwimming,
+    faPersonWalking: faPersonWalking,
+    faPersonRunning: faPersonRunning,
+    faBaseball: faBaseball,
+  };
 
   const backendURl = import.meta.env.VITE_BACKEND_ADDRESS;
   const url = `${backendURl}/categories`;
@@ -80,11 +106,10 @@ function ActivityLog({ setActivities }) {
   return (
     <>
       <div className="activities-page">
-        <h2>What have you been up to?</h2>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {categories.map((category) => (
-          <div key={category.id}>
-            <h4>{category.category}</h4>
+          <div className="category-container" key={category.id}>
+            <h4 className="category-name">{category.category}</h4>
             <div className="options-container">
               {category.options.map((option) => (
                 <button
@@ -101,8 +126,13 @@ function ActivityLog({ setActivities }) {
                       : ""
                   }`}
                 >
-                  {option.icon && <FontAwesomeIcon icon={faCarrot} />}
-                  <span>{option.option}</span>
+                  {option.icon && (
+                    <FontAwesomeIcon
+                      icon={iconMap[option.icon]}
+                      className="option-icon"
+                    />
+                  )}
+                  <span className="option-name">{option.option}</span>
                 </button>
               ))}
             </div>

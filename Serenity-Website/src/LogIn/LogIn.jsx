@@ -65,8 +65,8 @@ function LogIn() {
         const { user } = data;
         updateUser(user);
 
-        // navigate to mood board page after successful login
-        navigate("/mood-and-activities");
+        // navigate to user feed page after successful login
+        navigate("/user-feed");
         alert("Successfully Logged In");
       } catch (error) {
         console.error("Error logging in:", error.message);
