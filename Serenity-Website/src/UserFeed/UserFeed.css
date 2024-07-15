@@ -3,13 +3,13 @@
   src: url("../assets/Sarlotte.otf");
 }
 .user-feed {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: sarlotte;
+  color: #3d6a9b;
+}
+
+.user-feed.shifted {
+  margin-left: 255px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .user-feed h2 {
@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  color: #3d6a9b;
 }
 
 .entry-item h3 {
@@ -41,8 +42,78 @@
   font-size: 1em;
 }
 
+.entries-list {
+  margin-top: 20px;
+}
+
+.entry-item {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 .error-message {
   color: red;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.date {
+  text-align: center;
+}
+.entry-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.mood p {
+  color: #3d6a9b;
+}
+
+.mood-icon {
+  color: dodgerblue;
+  font-size: 1.5rem;
+}
+
+.entry-content .mood,
+.entry-content .activities,
+.entry-content .journal {
+  margin-bottom: 10px;
+}
+
+.activities ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.activities li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-top: 15px;
+  border: transparent;
+  border-radius: 6px;
+  font-style: italic;
+  color: #3d6a9b;
+}
+
+.activity-icon {
+  margin-right: 5px;
+  color: lightskyblue;
+}
+
+.journal span {
+  display: inline-block;
+  margin-right: 10px;
 }

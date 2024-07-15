@@ -1,13 +1,36 @@
 .entry-button {
   align-items: center;
-  border-radius: 8px;
-  border-width: 7px;
-  width: 200px;
-  border-color: rgb(33, 106, 185);
-  background-color: transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
 }
-.entry-button-div {
+.entry-button:hover {
+  border-color: #007074;
+  cursor: pointer;
+  border: transparent;
+  transform: scale(1.1);
+}
+.entry-button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.mood-and-activities-page {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.mood-and-activities-page.shifted {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.success-message,
+.error-message {
+  text-align: center;
 }

@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./Landing-Page/LandingPage.jsx";
 import SignUp from "./Sign-up/SignUp.jsx";
 import LogIn from "./LogIn/LogIn.jsx";
@@ -14,6 +9,9 @@ import NotFoundPage from "./NotFoundPage/NotFoundPage.jsx";
 import { UserContext } from "../../UserContext.js";
 import Preloader from "./Preloader/Preloader.jsx";
 import Cookies from "js-cookie";
+import UserFeed from "./UserFeed/UserFeed.jsx";
+import ProfilePage from "./Profile/Profile.jsx";
+import { SidebarProvider } from "./sidebarcontext/SidebarContext.jsx";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -33,8 +31,10 @@ function App() {
   }, [user]);
 
   return (
-    <>
-      <UserContext.Provider value={{ user, updateUser }}>
+    <UserContext.Provider value={{ user, updateUser }}>
+      <SidebarProvider>
+        {/* {" "} */}
+        {/* Wrap the Router with SidebarProvider */}
         <Router>
           <Preloader />
           <Routes>
@@ -44,12 +44,14 @@ function App() {
             <Route
               path="/mood-and-activities"
               element={<LogMoodAndActivities />}
-            />
-            <Route path="*" element={<NotFoundPage />} />
+            ></Route>
+            <Route path="/user-feed" element={<UserFeed />}></Route>
+            <Route path="/profile" element={<ProfilePage />}></Route>
+            <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </Router>
-      </UserContext.Provider>
-    </>
+      </SidebarProvider>
+    </UserContext.Provider>
   );
 }
 

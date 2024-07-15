@@ -1,13 +1,15 @@
 import "./Header.css";
-import appLogo from "../assets/file.png";
 import React, { useContext } from "react";
 import { logout } from "../logout";
 import { UserContext } from "../../../UserContext";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../SideBar/SideBar";
+import { useSidebar } from "../sidebarcontext/SidebarContext";
 
 function Header() {
   const navigate = useNavigate();
   const { updateUser } = useContext(UserContext);
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
   const handleLogOut = async () => {
     try {
       // call helper logout function
@@ -22,13 +24,15 @@ function Header() {
 
   return (
     <>
-      <div className="banner">
+      <div className={`banner ${isSidebarOpen ? "shifted" : ""}`}>
         <div className="app-header">
-          <img className="app-logo" src={appLogo} alt="web-logo" />
-          <h1 className="app-name">Serenity 🧚🏼</h1>
-          <button className="log-out-button" onClick={handleLogOut}>
-            Logout
-          </button>
+          <SideBar />
+          <div className={`header-content ${isSidebarOpen ? "shifted" : ""}`}>
+            <h1 className="app-name">Serenity 🧚🏼</h1>
+            <button className="log-out-button" onClick={handleLogOut}>
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </>

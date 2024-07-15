@@ -35,10 +35,10 @@ function MoodLog({ setMood }) {
       weekday: "long",
       day: "numeric",
       month: "long",
+      year: "numeric",
     });
     setCurrentDate(formattedDate);
   }, []);
-
 
   const handleMoodSelect = (mood) => {
     // handle mood changes
@@ -50,7 +50,7 @@ function MoodLog({ setMood }) {
   return (
     <>
       <div className="mood-entry">
-        <h2 className="prompt">How are you feeling today?</h2>
+        <h2 className="prompt">Check in: mood & activities</h2>
         <h4 className="current-date">
           <FontAwesomeIcon icon={faCalendar} /> {currentDate}
         </h4>
