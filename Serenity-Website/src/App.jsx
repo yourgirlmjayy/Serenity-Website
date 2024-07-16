@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import UserFeed from "./UserFeed/UserFeed.jsx";
 import ProfilePage from "./Profile/Profile.jsx";
 import { SidebarProvider } from "./sidebarcontext/SidebarContext.jsx";
+import ActivityLogSuccess from "./ActivityLogSuccess/ActivityLogSuccess.jsx";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -33,7 +34,6 @@ function App() {
   return (
     <UserContext.Provider value={{ user, updateUser }}>
       <SidebarProvider>
-        {/* {" "} */}
         {/* Wrap the Router with SidebarProvider */}
         <Router>
           <Preloader />
@@ -47,6 +47,10 @@ function App() {
             ></Route>
             <Route path="/user-feed" element={<UserFeed />}></Route>
             <Route path="/profile" element={<ProfilePage />}></Route>
+            <Route
+              path="/log-mood-activity-success"
+              element={<ActivityLogSuccess />}
+            ></Route>
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </Router>

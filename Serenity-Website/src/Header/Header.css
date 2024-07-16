@@ -4,7 +4,7 @@ body {
 }
 
 .banner {
-  background-color: #72a0c1;
+  background-color: #326ba8;
   width: 101%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -22,12 +22,13 @@ body {
 
 .app-name {
   font-size: 30px;
-  color: #4169e1;
+  color: #022688;
   padding: 10px;
   text-align: center;
 }
 .log-out-button {
   border: 1px solid transparent;
+  color: #0a2d8c;
 }
 .log-out-button {
   border-radius: 8px;
@@ -36,13 +37,13 @@ body {
   font-size: 1em;
   font-weight: 500;
   font-family: sans-serif;
-  color: #4169e1;
+  color: #022688;
   background-color: transparent;
   transition: border-color 0.25s;
 }
 .log-out-button:hover {
   cursor: pointer;
-  color: rgb(20, 138, 228);
+  color: rgb(237, 13, 13);
 }
 button:focus,
 button:focus-visible {

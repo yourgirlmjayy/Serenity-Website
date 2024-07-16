@@ -157,8 +157,8 @@ function UserFeed() {
                 </button>
               </ToolTip>
               <p className="error-message">
-                You don't have any activities and moods logged. <br /> Click the
-                plus sign to log moods and activities.
+                You don't have any activities and moods logged. <br /> <br />{" "}
+                Click the plus button to log moods and activities.
               </p>
             </div>
           ) : (
