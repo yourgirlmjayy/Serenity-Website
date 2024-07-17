@@ -42,7 +42,7 @@
 
 .category-name {
   font-size: 1.2rem;
-  color: #333;
+  color: #093879;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -50,9 +50,9 @@
 .category-container:hover {
   border-color: #007074;
   cursor: pointer;
-  transform: scale(1.02);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
 .options-container {
   display: flex;
   flex-wrap: wrap;
@@ -77,28 +77,39 @@
 
 .option-button:hover {
   border-color: #007074;
+  color: #007074;
   cursor: pointer;
   transform: scale(1.1);
 }
+
 .option-button.selected {
   color: rgb(26, 101, 81);
   border-color: #006b30;
   border-width: 3px;
   border-radius: 11px;
 }
+.option-button.selected-option-icon {
+  color: green;
+}
 
 .option-icon {
   font-size: 1.2em;
   color: rgb(57, 98, 188);
 }
-.option-icon.selected {
+.option-icon:hover {
+  color: rgb(26, 101, 81);
+  cursor: pointer;
+}
+.option-icon.selected-option-icon {
   color: rgb(26, 101, 81);
 }
+
 .options-container.button span {
   border-radius: #ff6347;
   margin-left: 5px;
 }
 
 .option-name {
+  margin-top: 5px;
   font-size: 14px;
 }

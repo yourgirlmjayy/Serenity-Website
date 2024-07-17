@@ -6,13 +6,14 @@ import ActivityLog from "./ActivityLog";
 import Header from "../Header/Header";
 import { useSidebar } from "../sidebarcontext/SidebarContext";
 import ToolTip from "../ToolTip/ToolTip";
+import { useNavigate } from "react-router-dom";
 
 function LogMoodAndActivities() {
   const [mood, setMood] = useState(null);
   const [activities, setActivities] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const { isSidebarOpen, toggleSidebar } = useSidebar();
+  const navigate = useNavigate();
 
   const backendURl = import.meta.env.VITE_BACKEND_ADDRESS;
   const url = `${backendURl}/log-mood-activity`;
@@ -30,7 +31,7 @@ function LogMoodAndActivities() {
     );
 
     if (activitiesArray.length === 0) {
-      setErrorMessage("Please select at least one activities");
+      setErrorMessage("Please select at least one activity");
       return;
     }
 
@@ -45,14 +46,15 @@ function LogMoodAndActivities() {
       });
 
       if (response.status === 201) {
-        setSuccessMessage("Activities and mood logged successfully!");
         setErrorMessage("");
         setActivities({});
         setMood("");
+        navigate("/log-mood-activity-success", { replace: true });
       } else if (response.status === 400) {
         setErrorMessage("Mood already logged for today");
       } else if (response.status === 401) {
         setErrorMessage("Unauthorized! Please log in.");
+        setTimeout(() => navigate("/logIn", { replace: true }), 2000);
       } else {
         setErrorMessage("Error logging mood and activities");
       }
@@ -78,7 +80,6 @@ function LogMoodAndActivities() {
           </ToolTip>
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
       </div>
     </>
   );

@@ -20,7 +20,52 @@
   flex-direction: column;
   align-items: center;
 }
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
 
+.custom-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.modal-button:hover {
+  background-color: #0056b3;
+}
+
+.modal-button-cancel {
+  background-color: #e94846;
+}
+
+.modal-button-cancel:hover {
+  background-color: #b82323;
+}
 .mood-and-activities-page {
   transition: margin-left 0.3s ease-in-out;
 }

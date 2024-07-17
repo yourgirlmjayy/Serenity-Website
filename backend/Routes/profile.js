@@ -26,7 +26,7 @@ router.post('/profile', authenticateToken, async (req, res) => {
                 userId: userId
             }
         });
-        res.json(profile);
+        res.status(200).json(profile);
     } catch (error) {
         console.error('Error saving profile: ', error.message);
         res.status(500).json({ error: 'Failed to save profile' })
@@ -43,12 +43,7 @@ router.get('/user-profile', authenticateToken, async (req, res) => {
         });
 
         if (!profile) {
-            profile = {
-                name: "",
-                bio: "",
-                age: "",
-                birthday: null,
-            }
+            return res.status(404).json({ message: "Profile not found" })
         }
         res.status(200).json(profile);
     } catch (error) {

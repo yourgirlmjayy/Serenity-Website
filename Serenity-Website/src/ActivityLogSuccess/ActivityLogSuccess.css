@@ -1,0 +1,50 @@
+.success-page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.success-header {
+  font-family: sans-serif;
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 30px;
+}
+
+.success-text {
+  color: green;
+}
+
+.buttons-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-button {
+  background: none;
+  border: none;
+  color: #007bff;
+}
+
+.new-entry-button {
+  background: none;
+  border: none;
+  color: #007bff;
+}
+
+.home-button:hover {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0000ff;
+}
+
+.new-entry-button:hover {
+  background: none;
+  border: none;
+  color: #0000ff;
+  cursor: pointer;
+}

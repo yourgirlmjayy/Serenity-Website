@@ -129,7 +129,14 @@ function ActivityLog({ setActivities }) {
                   {option.icon && (
                     <FontAwesomeIcon
                       icon={iconMap[option.icon]}
-                      className="option-icon"
+                      className={`option-icon ${
+                        selectedActivities[category.category] &&
+                        selectedActivities[category.category].includes(
+                          option.option
+                        )
+                          ? "selected-option-icon"
+                          : ""
+                      }`}
                     />
                   )}
                   <span className="option-name">{option.option}</span>
