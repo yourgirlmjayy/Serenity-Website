@@ -64,12 +64,22 @@ const calculateActivityAndMoodCorrelations = (entries) => {
     return correlations;
 }
 
-const detectMoodOutliers = (moods, commonMoods) => {
-    // define treshold fr how many occurences count as outliers
-    const threshold = 1;
-    // moods occuring just once are considered outliers
-    const outliers = moods.filter(mood => commonMoods[mood] === threshold);
-    return outliers;
+const categorizeMood = (mood) => {
+    // Define arrays of positive and negative mood types
+    const positiveMoods = ['happy', 'excited'];
+    const negativeMoods = ['sad', 'angry'];
+
+    // check what category the mood is
+    if (positiveMoods.includes(mood))
+        // return positive if the mood is in the positiveMoods array
+        return 'positive';
+
+    if (negativeMoods.includes(mood))
+        // return negative if the mood is in the negativeMoodsArray 
+        return 'negative';
+
+    // return neutral if the mood is neither positive nor negative
+    return 'neutral';
 }
 
 
@@ -89,9 +99,6 @@ const analyzeUserData = (entries) => {
     // determine correlation between activities and moods
     const activityAndMoodCorrelations = calculateActivityAndMoodCorrelations(entries);
 
-    // detect outlier moods based on mood frequency 
-    const moodOutliers = detectMoodOutliers(moods, moodFrequency);
-
     // return object of all calculated metrics
-    return { moodFrequency, activityFrequency, activityAndMoodCorrelations, moodOutliers };
+    return { moodFrequency, activityFrequency, activityAndMoodCorrelations };
 };
