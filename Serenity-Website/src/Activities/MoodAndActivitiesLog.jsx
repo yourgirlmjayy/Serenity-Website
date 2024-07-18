@@ -34,7 +34,7 @@ function LogMoodAndActivities() {
       setErrorMessage("Please select at least one activity");
       return;
     }
-
+    setErrorMessage("");
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -51,7 +51,7 @@ function LogMoodAndActivities() {
         setMood("");
         navigate("/log-mood-activity-success", { replace: true });
       } else if (response.status === 400) {
-        setErrorMessage("Mood already logged for today");
+        setErrorMessage("Mood and activities already logged for today");
       } else if (response.status === 401) {
         setErrorMessage("Unauthorized! Please log in.");
         setTimeout(() => navigate("/logIn", { replace: true }), 2000);
@@ -79,8 +79,8 @@ function LogMoodAndActivities() {
             </button>
           </ToolTip>
         </div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
+      {errorMessage && <p className="error-memo">{errorMessage}</p>}
     </>
   );
 }

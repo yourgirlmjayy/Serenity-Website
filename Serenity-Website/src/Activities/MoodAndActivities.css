@@ -75,7 +75,8 @@
   transition: margin-left 0.3s ease-in-out;
 }
 
-.success-message,
-.error-message {
+.error-memo {
   text-align: center;
+  color: #b82323;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
