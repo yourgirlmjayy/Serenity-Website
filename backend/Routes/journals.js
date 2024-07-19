@@ -77,7 +77,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
     }
 });
 
-router.get('/get-journal-prompt:date', authenticateToken, async (req, res) => {
+router.get('/get-journal-prompt/:date', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const date = req.params
 
