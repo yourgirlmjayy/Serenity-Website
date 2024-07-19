@@ -43,6 +43,7 @@ model Mood {
 model Journal {
   id            Int @id @unique @default(autoincrement())
   prompt        String
+  refinedPrompt String?
   content       String
   favorite      Boolean @default(false)
   upvote        Int @default(0)
