@@ -4,33 +4,13 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../MiddleWare/authenticateToken');
+const { analyzeUserData } = require('../DataAnalysis/analysis');
+const { createInitialPrompt } = require('../PromptGeneration/journalPrompt');
+const { fetchUserEntries, fetchFeedbackData, fetchPromptHistory } = require('../PromptGeneration/dataFetch');
+const { generateJournalPromptWithGemini } = require('../utils/Gemini');
 
-router.get('/user-mood-activities', authenticateToken, async (req, res) => {
-    const userId = req.user.id;
 
-    try {
-        const userEntries = await prisma.userEntry.findMany({
-            where: { userId },
-            include: {
-                moods: true,
-                activities: {
-                    include: {
-                        activityOption: true
-                    }
-                }
-            },
-            //return user's entries in descending order
-            orderBy: { date: 'desc' }
-        });
-        res.status(200).json(userEntries);
-    } catch (error) {
-        console.error('Error fetching user feed:', error);
-        res.status(500).json({ error: 'Failed to fetch user feed' })
-    }
-});
-
-router.post('/journal-entry', authenticateToken, async (req, res) => {
-    const { mood, activities, content } = req.body;
+router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     if (!userId) {
@@ -41,6 +21,7 @@ router.post('/journal-entry', authenticateToken, async (req, res) => {
     today.setHours(0, 0, 0, 0);
 
     try {
+        // find user entry for today
         let userEntry = await prisma.userEntry.findFirst({
             where: {
                 userId,
@@ -49,37 +30,71 @@ router.post('/journal-entry', authenticateToken, async (req, res) => {
                     lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
                 }
             },
-            include: { journals: true }
         });
 
+        // create user entry if none is found for that day
         if (!userEntry) {
             userEntry = await prisma.userEntry.create({
                 data: {
                     userId,
-                    date: new Date(),
+                    date: today,
                 }
-            })
+            });
         }
-        const prompt = "test-prompt";
+        //fetch user data for the past week for analysis
+        const entries = await fetchUserEntries(userId);
+        const feedbackData = await fetchFeedbackData(userId);
+        const promptHistory = await fetchPromptHistory(userId);
+
+        const analysis = analyzeUserData(entries);
+        const initialPrompt = createInitialPrompt(analysis, feedbackData, promptHistory);
+
+        // use gemini ai to refine the prompt
+        if (initialPrompt) {
+            const refinedPrompt = await generateJournalPromptWithGemini(initialPrompt);
+
+            // create a new journal entry with the refined prompt
+
+            const newJournal = await prisma.journal.create({
+                data: {
+                    userEntryId: userEntry.id,
+                    prompt: initialPrompt,
+                    refinedPrompt: refinedPrompt
+                }
+            });
+
+            await prisma.userEntry.update({
+                where: { id: userEntry.id },
+                data: { journals: { connect: { id: newJournal.id } } }
+            });
+
+            res.status(201).json({ message: 'Journal successfully created', journal: newJournal });
+        } else {
+            res.status(200).json({ message: 'No suitable prompt found based on feedback and history' })
+        }
+    } catch (error) {
+        console.error('Falied to generate journal prompt', error);
+        res.status(500).json({ error: "Failed to generate journal prompt" });
+    }
+});
+
+router.post('/create-journal-entry', authenticateToken, async (req, res) => {
+    const { userEntryId, content } = req.body;
+
+    try {
         const newJournal = await prisma.journal.create({
             data: {
-                prompt,
-                content,
-                userEntryId: userEntry.id
+                userEntryId: userEntryId,
+                content: content,
             }
         });
-
-        await prisma.userEntry.update({
-            where: { id: userEntry.id },
-            data: { journals: { connect: { id: newJournal.id } } }
-        });
-
-        res.status(201).json({ message: "Journal entry created successfully!, journal: newJournal" })
+        res.status(201).json({ message: 'Journal entry successfully created!', journal: newJournal })
     } catch (error) {
-        console.error('Falied to create journal entry', error);
-        res.status(500).json({ error: "Failed to create journal entry" });
+        console.error('Error creating journal entry', error);
+        res.status(500).json({ error: 'Failed to create journal entry' });
     }
-})
+
+});
 
 router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => {
     const { content } = req.body;
@@ -96,7 +111,7 @@ router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => 
 
         const updatedJournal = await prisma.journal.update({
             where: { id: journalId },
-            data: { content }
+            data: { content: content }
         });
 
         res.status(200).json({ message: "Journal updated successfully", journal: updatedJournal })
@@ -104,6 +119,60 @@ router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => 
         console.error("Error updating journal entry");
         res.status(500).json({ error: 'Failed to update journal entry' });
 
+    }
+});
+
+router.patch('/journal/vote', authenticateToken, async (req, res) => {
+    const journalId = parseInt(req.params.journalId, 10);
+    const { upvote, downvote } = req.body;
+
+    try {
+        const journalEntry = await prisma.journal.findUnique({
+            where: { id: journalId }
+        });
+
+        if (!journalEntry) {
+            return res.status(404).json({ error: 'Journal entry not found!' })
+        }
+
+        const updatedJournal = await prisma.journal.update({
+            where: { id: journalId },
+            data: {
+                upvote: { increment: upvote ? 1 : 0 },
+                downvote: { increment: downvote ? 1 : 0 }
+            }
+        });
+
+        res.status(200).json({ message: 'Journal vote updated successfully', journal: updatedJournal });
+
+    } catch (error) {
+        console.error('Error updating journal vote: error');
+        res.status(500).json({ error: 'Failed to update journal vote' });
+    }
+});
+
+router.patch('/journal/favorite', authenticateToken, async (req, res) => {
+    const journalId = parseInt(req.params.journalId, 10);
+    const { favorite } = req.body;
+
+    try {
+        const journalEntry = await prisma.journal.findUnique({
+            where: { id: journalId }
+        });
+
+        if (!journalEntry) {
+            return res.status(404).json({ error: 'Journal entry not found!' })
+        }
+
+        const updatedJournal = await prisma.journal.update({
+            where: { id: journalId },
+            data: { favorite: favorite }
+        });
+
+        res.status(200).json({ message: 'Journal marked as favorite', journal: updatedJournal });
+    } catch (error) {
+        console.error('Error marking journal as favorite:', error);
+        res.status(500).json({ error: 'Failed to mark journal as favourite' })
     }
 })
 
