@@ -47,6 +47,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
 
         const analysis = analyzeUserData(entries);
 
+        // Generate a refined journal prompt using the analysis and other data
         const apiKey = process.env.GEMINI_API_KEY;
         const refinedPrompt = await generateJournalPromptWithFeedback(analysis, feedbackData, promptHistory, apiKey);
 
@@ -60,14 +61,17 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
             }
         });
 
+        // Link the new journal entry to the user entry
         await prisma.userEntry.update({
             where: { id: userEntry.id },
             data: { journals: { connect: { id: newJournal.id } } }
         });
 
+        // Return a success response with the new journal entry
         res.status(201).json({ message: 'Journal successfully created', journal: newJournal });
 
     } catch (error) {
+        // Log any errors and return error response
         console.error('Falied to generate journal prompt', error);
         res.status(500).json({ error: "Failed to generate journal prompt" });
     }
@@ -82,11 +86,13 @@ router.get('/get-journal-prompt:date', authenticateToken, async (req, res) => {
     }
 
     try {
+        // Find the user's journal entry for the specified date
         const userEntry = await prisma.journal.findFirst({
             where: {
                 userId: userId,
                 date: new Date(date),
             },
+            // Include the related journal data
             include: {
                 journals: true
             }
@@ -97,6 +103,7 @@ router.get('/get-journal-prompt:date', authenticateToken, async (req, res) => {
             return res.status(400).json({ error: "No journal prompt found for today!" });
         }
 
+        // Get the first journal entry
         const journal = userEntry.journals[0];
 
         res.status(200).json({ prompt: journal.prompt, refinedPrompt: journal.refinedPrompt, id: journal.id });
@@ -107,6 +114,7 @@ router.get('/get-journal-prompt:date', authenticateToken, async (req, res) => {
 })
 
 router.post('/create-journal-entry', authenticateToken, async (req, res) => {
+    // get the content and userEntry from the request body
     const { userEntryId, content } = req.body;
 
     try {
@@ -124,12 +132,14 @@ router.post('/create-journal-entry', authenticateToken, async (req, res) => {
 
 });
 
-router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => {
+router.patch('/update-journal-entry:/id', authenticateToken, async (req, res) => {
+    // Get the content from the request body
     const { content } = req.body;
     const journalId = parseInt(req.params.id);
 
     try {
         const journalEntry = await prisma.journal.findUnique({
+            // Find the journal entry by ID
             where: { id: journalId }
         });
 
@@ -137,11 +147,13 @@ router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => 
             return res.status(404).json({ error: 'Journal entry not found!' })
         }
 
+        // Update the journal entry with the new content
         const updatedJournal = await prisma.journal.update({
             where: { id: journalId },
             data: { content: content }
         });
 
+        // Return a success response with the updated journal entry
         res.status(200).json({ message: "Journal updated successfully", journal: updatedJournal })
     } catch (error) {
         console.error("Error updating journal entry");
@@ -152,6 +164,7 @@ router.patch('/update-journal-entry:id', authenticateToken, async (req, res) => 
 
 router.patch('/journal/vote', authenticateToken, async (req, res) => {
     const journalId = parseInt(req.params.journalId, 10);
+    // Get the vote data from the request body
     const { upvote, downvote } = req.body;
 
     try {
@@ -163,9 +176,11 @@ router.patch('/journal/vote', authenticateToken, async (req, res) => {
             return res.status(404).json({ error: 'Journal entry not found!' })
         }
 
+        // Update the journal entry's vote count
         const updatedJournal = await prisma.journal.update({
             where: { id: journalId },
             data: {
+                // Increment the downvote count or upvote count if either exists
                 upvote: { increment: upvote ? 1 : 0 },
                 downvote: { increment: downvote ? 1 : 0 }
             }
