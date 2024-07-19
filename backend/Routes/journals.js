@@ -77,7 +77,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
     }
 });
 
-router.get('/get-journal-prompt:date', authenticateToken, async (req, res) => {
+router.get('/get-journal-prompt/:date', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const date = req.params
 
@@ -132,7 +132,7 @@ router.post('/create-journal-entry', authenticateToken, async (req, res) => {
 
 });
 
-router.patch('/update-journal-entry:/id', authenticateToken, async (req, res) => {
+router.patch('/update-journal-entry/:id', authenticateToken, async (req, res) => {
     // Get the content from the request body
     const { content } = req.body;
     const journalId = parseInt(req.params.id);
