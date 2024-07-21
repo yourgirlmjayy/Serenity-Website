@@ -44,7 +44,7 @@ model Journal {
   id            Int @id @unique @default(autoincrement())
   prompt        String
   refinedPrompt String?
-  content       String
+  content       String?
   favorite      Boolean @default(false)
   upvote        Int @default(0)
   downvote      Int @default(0)
