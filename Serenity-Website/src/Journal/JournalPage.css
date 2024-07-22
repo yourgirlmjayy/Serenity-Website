@@ -1,0 +1,160 @@
+.journal-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.journal-entry.shifted {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.journal-header {
+  position: relative;
+  min-height: 2.1rem;
+  width: 100%;
+  padding-right: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.journal-prompt {
+  font-size: 1em;
+  margin-top: 10px;
+  text-align: center;
+  color: #007bff;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.favorited-icon {
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 1.8rem;
+  transition: color 0.2s ease-in-out;
+  animation: vibrate 0.5s ease-in-out both,
+    favorite-to-non-favorite 0.5s ease-in-out both;
+  padding-right: 7px;
+  cursor: pointer;
+}
+
+.not-favorited-icon {
+  color: #999999;
+  transition: color 0.5s ease-in-out;
+  animation: none;
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 1.8rem;
+  margin-right: 6px;
+  margin-top: 10px;
+}
+
+@keyframes vibrate {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes favorite-to-non-favorite {
+  0% {
+    transform: scale(1);
+    color: #ccc;
+  }
+  100% {
+    transform: scale(1);
+    color: orange;
+  }
+}
+
+.feedback-buttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.vote-count {
+  margin: 0 2px;
+  color: #11429e;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.journal-textarea {
+  width: 100%;
+  padding: 15px;
+  border: transparent;
+  border-radius: 30px;
+  margin: 10px 0;
+  font-size: 1em;
+  background-color: #f9f9f9;
+  cursor: text;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.submit-content-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0269d7;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.edit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2dc168;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: center;
+}
+.save-changes-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #038035;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.up-vote-button {
+  background-color: transparent;
+  border: transparent;
+  font-size: 1.3rem;
+  color: #11429e;
+}
+
+.down-vote-button {
+  background-color: transparent;
+  border: transparent;
+  font-size: 1.3rem;
+  color: #11429e;
+}
