@@ -32,6 +32,7 @@ const fetchUserEntries = async (userId) => {
     return entries;
 };
 
+
 // Fetch feedback data
 const fetchFeedbackData = async (userId) => {
     try {
@@ -49,7 +50,10 @@ const fetchFeedbackData = async (userId) => {
                 downvote: true
             }
         })
-        // Create a feedback map (prompt -> upvotes/downvotes)
+        if (!feedbackData || feedbackData.length === 0) {
+            return {}; // Return an empty object if feedbackData is empty
+        }
+
         const feedbackMap = feedbackData.reduce((accumulator, feedback) => {
             accumulator[feedback.prompt] = {
                 upvotes: feedback.upvote,
@@ -57,6 +61,7 @@ const fetchFeedbackData = async (userId) => {
             };
             return accumulator;
         }, {});
+
         // Return the feedback map
         return feedbackMap;
     } catch (error) {
