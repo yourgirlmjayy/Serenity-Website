@@ -13,6 +13,7 @@ import UserFeed from "./UserFeed/UserFeed.jsx";
 import ProfilePage from "./Profile/Profile.jsx";
 import { SidebarProvider } from "./sidebarcontext/SidebarContext.jsx";
 import ActivityLogSuccess from "./ActivityLogSuccess/ActivityLogSuccess.jsx";
+import JournalEntry from "./Journal/JournalPage.jsx";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -51,6 +52,7 @@ function App() {
               path="/log-mood-activity-success"
               element={<ActivityLogSuccess />}
             ></Route>
+            <Route path="/journal-entry" element={<JournalEntry />}></Route>
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </Router>
