@@ -17,14 +17,10 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
         return res.status(400).json({ error: `User ${userId} not found!` })
     }
 
-    // Use UTC date for consistency and to avoid timezone issues
+    //get date without time
     const today = new Date();
-
-    // Set 'today' to the start of the current day in UTC
-    today.setUTCHours(0, 0, 0, 0);
-
-    const tomorrow = new Date(today);
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);  // Set 'tomorrow' to the start of the next day in UTC
+    // set time of the day to be midnight
+    today.setHours(0, 0, 0, 0);
 
     try {
         // find user entry for today
@@ -33,7 +29,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
                 userId,
                 date: {
                     gte: today,
-                    lt: tomorrow,
+                    lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
                 }
             },
             include: {
@@ -41,65 +37,24 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
             }
         });
 
-        if (userEntry) {
-            // check if user entry has journals for that day
-            if (userEntry && userEntry.journals && userEntry.journals.length > 0) {
-
-                // get the most recent journal
-                const journal = userEntry.journals[0];
-                return res.status(200).json({ message: 'Journal already exists for today', initialPrompt: journal.initialPrompt, refinedPrompt: journal.refinedPrompt, journalId: journal.id });
-            }
-
-            else {
-                //fetch user data for the past week for analysis
-
-                const entries = await fetchUserEntries(userId);
-
-                const feedbackData = await fetchFeedbackData(userId);
-
-                const promptHistory = await fetchPromptHistory(userId);
-
-                const analysis = analyzeUserData(entries);
-
-                // Generate a journal prompt using the analysis and other data
-                const apiKey = process.env.GEMINI_API_KEY;
-
-                // extract initial prompt and refined prompt from gemini
-                const result = await generateJournalPromptWithFeedback(analysis, feedbackData, promptHistory, apiKey);
-                const initialPrompt = result.initialPrompt;
-                const refinedPrompt = result.refinedPrompt;
-
-                // create a new journal entry with the refined prompt
-
-                const newJournal = await prisma.journal.create({
-                    data: {
-                        userEntryId: userEntry.id,
-                        prompt: initialPrompt,
-                        refinedPrompt: refinedPrompt
-                    }
-                });
-
-                // Link the new journal entry to the user entry
-                await prisma.userEntry.update({
-                    where: { id: userEntry.id },
-                    data: { journals: { connect: { id: newJournal.id } } }
-                });
-
-                return res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id });
-
-            }
-
-        }
-
-        // create user entry if none is found for that day
-        else {
+        if (!userEntry) {
             userEntry = await prisma.userEntry.create({
                 data: {
                     userId,
                     date: today,
                 }
             });
+        }
 
+        // check if user entry has journals for that day
+        if (userEntry && userEntry.journals && userEntry.journals.length > 0) {
+
+            // get the most recent journal
+            const journal = userEntry.journals[0];
+            return res.status(200).json({ message: 'Journal already exists for today', initialPrompt: journal.initialPrompt, refinedPrompt: journal.refinedPrompt, journalId: journal.id, content: journal.content });
+        }
+
+        else {
             //fetch user data for the past week for analysis
 
             const entries = await fetchUserEntries(userId);
@@ -124,7 +79,8 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
                 data: {
                     userEntryId: userEntry.id,
                     prompt: initialPrompt,
-                    refinedPrompt: refinedPrompt
+                    refinedPrompt: refinedPrompt,
+                    content: ""
                 }
             });
 
@@ -134,8 +90,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
                 data: { journals: { connect: { id: newJournal.id } } }
             });
 
-            // Return a success response with the new journal entry
-            res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id });
+            return res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id });
 
         }
 
