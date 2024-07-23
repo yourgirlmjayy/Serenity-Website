@@ -9,7 +9,7 @@ const cors = require('cors');
 const userAuthRoutes = require('./Routes/userAuth.js');
 const userEntries = require('./Routes/entries.js');
 const userFeed = require('./Routes/userFeed.js');
-const journalEntries = require('./Routes/journals.js');
+const journalRoutes = require('./Routes/journals.js');
 const userProfile = require('./Routes/profile.js');
 
 
@@ -27,7 +27,7 @@ app.use(cors({
 app.use(userAuthRoutes);
 app.use(userEntries);
 app.use(userFeed);
-app.use(journalEntries);
+app.use(journalRoutes);
 app.use(userProfile);
 
 // GET requests for /users -> All users
