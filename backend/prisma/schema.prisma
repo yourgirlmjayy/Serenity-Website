@@ -14,13 +14,15 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @unique @default(autoincrement())
-  email       String       @unique
-  password    String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now()) @updatedAt
-  profile     Profile?
-  entries     UserEntry[]
+  id              Int          @id @unique @default(autoincrement())
+  email           String       @unique
+  password        String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  profile         Profile?
+  entries         UserEntry[]
+  recommendations Recommendation[]
+  goals           Goal[]
 }
 
 model Profile {
@@ -85,4 +87,19 @@ model UserEntry {
   user              User           @relation(fields: [userId], references: [id])
 }
 
+model Recommendation {
+  id                Int           @id @unique @default(autoincrement())
+  date              DateTime      @default(now())
+  userId            Int
+  user              User           @relation(fields: [userId], references: [id])
+  activity          String
+}
 
+model Goal {
+  id                Int           @id @unique @default(autoincrement())
+  date              DateTime      @default(now())
+  userId            Int
+  user              User           @relation(fields: [userId], references: [id])
+  activity          String
+  isCompleted       Boolean @default(false)
+}
