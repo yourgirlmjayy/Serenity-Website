@@ -14,6 +14,7 @@ import ProfilePage from "./Profile/Profile.jsx";
 import { SidebarProvider } from "./sidebarcontext/SidebarContext.jsx";
 import ActivityLogSuccess from "./ActivityLogSuccess/ActivityLogSuccess.jsx";
 import JournalEntry from "./Journal/JournalPage.jsx";
+import JournalEntriesPage from "./AllJournalEntries/JournalEntries.jsx";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -35,7 +36,6 @@ function App() {
   return (
     <UserContext.Provider value={{ user, updateUser }}>
       <SidebarProvider>
-        {/* Wrap the Router with SidebarProvider */}
         <Router>
           <Preloader />
           <Routes>
@@ -52,7 +52,11 @@ function App() {
               path="/log-mood-activity-success"
               element={<ActivityLogSuccess />}
             ></Route>
-            <Route path="/journal-entry" element={<JournalEntry />}></Route>
+            <Route
+              path="/all-journal-entries"
+              element={<JournalEntriesPage />}
+            ></Route>
+            <Route path={"/journal-entry"} element={<JournalEntry />}></Route>
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </Router>
