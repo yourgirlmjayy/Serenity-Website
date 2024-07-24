@@ -11,6 +11,7 @@ const userEntries = require('./Routes/entries.js');
 const userFeed = require('./Routes/userFeed.js');
 const journalRoutes = require('./Routes/journals.js');
 const userProfile = require('./Routes/profile.js');
+const pastJournalsRoutes = require('./Routes/allJournals.js');
 
 
 const express = require('express');
@@ -29,6 +30,7 @@ app.use(userEntries);
 app.use(userFeed);
 app.use(journalRoutes);
 app.use(userProfile);
+app.use(pastJournalsRoutes);
 
 // GET requests for /users -> All users
 app.get('/users', async (req, res) => {

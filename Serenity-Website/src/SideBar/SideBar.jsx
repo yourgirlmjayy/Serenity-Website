@@ -10,6 +10,8 @@ import { useSidebar } from "../sidebarcontext/SidebarContext";
 function SideBar() {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
+  const sidebarData = SideBarData();
+
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
@@ -24,7 +26,7 @@ function SideBar() {
                   <AiIcons.AiOutlineClose />
                 </Link>
               </li>
-              {SideBarData.map((item, index) => {
+              {sidebarData.map((item, index) => {
                 return (
                   <li key={index} className={item.cName}>
                     <Link to={item.path}>

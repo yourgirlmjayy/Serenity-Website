@@ -4,7 +4,7 @@ import * as MdIcons from "react-icons/md";
 import * as IO5icons from "react-icons/io5";
 import * as Bsicons from "react-icons/bs";
 
-export const SideBarData = [
+export const SideBarData = () => [
   {
     title: "Profile",
     path: "/profile",

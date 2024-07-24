@@ -11,13 +11,16 @@ import ToolTip from "../ToolTip/ToolTip";
 import { useSidebar } from "../sidebarcontext/SidebarContext";
 import Header from "../Header/Header";
 import LoadingScreen from "../Loading-Spinner/LoadingSpinner";
+import { useNavigate, useParams } from "react-router-dom";
 
 const JournalEntry = () => {
+  const navigate = useNavigate();
+
   const [prompt, setPrompt] = useState("");
   const [content, setContent] = useState("");
+  const [journalId, setJournalId] = useState();
 
   // stores the journal ID from the request body
-  const [journalId, setJournalId] = useState(null);
 
   // tracks if user marks journal as favorite
   const [isFavorite, setIsFavorite] = useState(false);
@@ -45,39 +48,71 @@ const JournalEntry = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_ADDRESS;
   const promptUrl = `${backendUrl}/generateJournalPrompt`;
   const createJournalUrl = `${backendUrl}/create-journal-entry`;
+  const checkJournalExists = `${backendUrl}/journal/check/journal-entry`;
   const updateJournalUrl = `${backendUrl}/update-journal-entry`;
   const favoriteJournalUrl = `${backendUrl}/journal/favorite`;
   const votesUrl = `${backendUrl}/journal/vote`;
+  const journalUrl = `${backendUrl}/journals/latest`;
 
   useEffect(() => {
     // fetch the prompt when the component mounts
-    const fetchPrompt = async () => {
+    const checkOrCreateJournalEntry = async () => {
       setLoading(true);
       try {
-        await new Promise((resolve) => setTimeout(resolve, 900));
-        const response = await fetch(promptUrl, {
-          method: "POST",
-          credentials: "include",
-        });
-
-        if (response.ok) {
+        // if journal id is not null, fetch the journal data
+        if (journalId) {
+          const response = await fetch(journalUrl, {
+            credentials: "include",
+          });
           const data = await response.json();
-
-          // Update local states with data from the API response
-          // Sets the prompt state to the refined prompt received from the API
           setPrompt(data.refinedPrompt);
-
-          // Sets the journalId state to the journal ID received from the API
-          setJournalId(data.journalId);
-
-          // Stop loading on success
-          setLoading(false);
-        } else {
-          console.error("Failed to fetch journal prompt", response);
-
-          // Stop loading on failure
-          setLoading(false);
+          setContent(data.content || "");
+          setIsFavorite(data.favorite);
+          setUpVotes(data.upvote);
+          setDownVotes(data.downvote);
+          setJournalId(data.id);
+          setIsSubmitted(true);
         }
+
+        // if journal id is null, check if the journal exists for the day
+        else {
+          const response = await fetch(checkJournalExists, {
+            method: "GET",
+            credentials: "include",
+          });
+          const checkData = await response.json();
+
+          // if the journal has been created, get the data needed
+          if (checkData.exists) {
+            const { journal } = checkData;
+            setPrompt(journal.refinedPrompt);
+            setContent(journal.content || "");
+            setJournalId(journal.id);
+            setIsFavorite(journal.favorite);
+            setUpVotes(journal.upvote);
+            setDownVotes(journal.downvote);
+            setIsSubmitted(true);
+
+            // navigate to the journal entry page with the journal id
+            navigate("/journal-entry");
+          }
+
+          // if journal has not already been created, make a post request to the api
+          else {
+            const createResponse = await fetch(promptUrl, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            const createData = await createResponse.json();
+            setPrompt(createData.refinedPrompt);
+            setJournalId(createData.journalId);
+            navigate("/journal-entry");
+          }
+        }
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching journal prompt:", error);
 
@@ -86,8 +121,8 @@ const JournalEntry = () => {
       }
     };
 
-    fetchPrompt();
-  }, []);
+    checkOrCreateJournalEntry();
+  }, [navigate, setJournalId, journalId]);
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
