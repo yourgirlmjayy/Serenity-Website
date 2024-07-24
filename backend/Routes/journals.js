@@ -90,7 +90,7 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
                 data: { journals: { connect: { id: newJournal.id } } }
             });
 
-            return res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id });
+            return res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id, content: newJournal.content });
 
         }
 
