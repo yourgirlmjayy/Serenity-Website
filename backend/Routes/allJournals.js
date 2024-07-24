@@ -15,9 +15,45 @@ const getStartAndEndOfDay = (date) => {
     return { startOfDay, endOfDay };
 };
 
+// check if journal exists 
+router.get('/journal/check/journal-entry', authenticateToken, async (req, res) => {
+    const userId = req.user.id;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    try {
+        const userEntry = await prisma.userEntry.findFirst({
+            where: {
+                userId: userId,
+                date: {
+                    gte: today,
+                    lt: tomorrow,
+                }
+            },
+            include: {
+                journals: true,
+            }
+        });
+
+        // return true if journal has been created for today
+        if (userEntry && userEntry.journals.length > 0) {
+            return res.status(200).json({ exists: true, journal: userEntry.journals[0] })
+        }
+        // otherwise, return false
+        return res.status(200).json({ exists: false });
+    } catch (error) {
+        console.error('Error checking journal entry:', error)
+        res.status(500).json({ error: 'An error occured when checking journal entry' });
+    }
+});
+
+
 // Fetch all journals for a user with sorting and filtering
 router.get('/journals', authenticateToken, async (req, res) => {
     const userId = req.user.id;
+
     const { sort = 'newest', filter = 'all' } = req.query;
 
     const sortOptions = {
@@ -60,36 +96,27 @@ router.get('/journals', authenticateToken, async (req, res) => {
 });
 
 // get the journal with its details
-router.get('/journals/:id', authenticateToken, async (req, res) => {
+router.get('/journals/latest', authenticateToken, async (req, res) => {
     const userId = req.user.id;
-    const journalId = parseInt(req.params.id);
 
     try {
-        const journal = await prisma.journal.findFirst({
+        const latestJournalEntry = await prisma.userEntry.findFirst({
             where: {
-                id: journalId,
-                userEntry: {
-                    userId: userId
-                }
+                userId: userId,
             },
-            select: {
-                id: true,
-                refinedPrompt: true,
-                content: true,
-                favorite: true,
-                upvote: true,
-                downvote: true,
-                userEntry: {
-                    select: {
-                        userId: true,
-                    }
-                }
+            orderBy: {
+                date: 'desc'
             },
+            include: {
+                journals: true,
+            }
         });
 
-        if (!journal) {
+        if (!latestJournalEntry || latestJournalEntry.journals.length === 0) {
             return res.status(404).json({ error: 'Journal not found' });
         }
+
+        const journal = latestJournalEntry.journals[0];
 
         res.status(200).json(journal);
     } catch (error) {
@@ -97,5 +124,7 @@ router.get('/journals/:id', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'An error occurred while fetching the journal' });
     }
 });
+
+
 
 module.exports = router;
