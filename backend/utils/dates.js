@@ -4,7 +4,7 @@ const getDayOfWeek = (date) => {
 }
 
 const getTimeOfDay = (date) => {
-    const hours = date.gethours();
+    const hours = date.getHours();
     if (hours < 12) {
         return 'Morning';
     }
@@ -12,10 +12,8 @@ const getTimeOfDay = (date) => {
     else if (hours < 18) {
         return 'Afternoon';
     }
-
     return 'Evening';
 }
-
 
 const getMonthOfYear = (date) => {
     const months = [
@@ -32,6 +30,8 @@ const getMonthOfYear = (date) => {
         "November",
         "December"
     ];
-
     return months[date.getMonth()];
+
 }
+
+module.exports = { getDayOfWeek, getMonthOfYear, getTimeOfDay };
