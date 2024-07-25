@@ -15,6 +15,9 @@ const fetchUserActivity = async (userId) => {
                     gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
                 },
             },
+            orderBy: {
+                date: 'desc',
+            },
             include: {
                 activities: {
                     include: {
@@ -34,7 +37,6 @@ const fetchUserActivity = async (userId) => {
             date: entry.date,
             activities: entry.activities.map(activity => activity.activityOption.option),
         }));
-
         return processedActivities;
     } catch (error) {
         console.error('Error fetching user activities:', error);
@@ -54,6 +56,9 @@ const fetchUserMoods = async (userId) => {
             },
             include: {
                 moods: true
+            },
+            orderBy: {
+                date: 'desc',
             }
         });
         if (!moods.length) {
@@ -74,5 +79,5 @@ const fetchUserMoods = async (userId) => {
 
 module.exports = {
     fetchUserActivity,
-    fetchUserMoods,
+    fetchUserMoods
 }
