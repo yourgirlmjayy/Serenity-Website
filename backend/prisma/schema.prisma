@@ -20,6 +20,8 @@ model User {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @default(now()) @updatedAt
   profile         Profile?
+  longitude       Float?
+  latitude        Float?
   entries         UserEntry[]
   recommendations Recommendation[]
   goals           Goal[]
