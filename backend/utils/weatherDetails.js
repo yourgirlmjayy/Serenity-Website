@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 require('dotenv').config();
 const express = require('express');
+const { determineWeatherCondition, weatherConditions } = require('./weatherCondition');
 const router = express.Router();
 
 
@@ -54,17 +55,35 @@ const fetchWeatherDataWithAPI = async (latitude, longitude, date = null) => {
     try {
         let url;
         if (date) {
-            url = `${baseUrl}/history.json?key=${apiKey}&q=${latitude},${longitude}&dt${date}`;
+            url = `${baseUrl}/history.json?key=${apiKey}&q=${latitude},${longitude},&dt=${date}`;
         } else {
             url = `${baseUrl}/current.json?key=${apiKey}&q=${latitude},${longitude}`;
         }
         const response = await fetch(url);
 
+
         if (!response.ok) {
             throw new Error('Failed to fetch weather data');
         }
         const data = await response.json();
-        return data;
+        if (date) {
+            const forecast = data.forecast.forecastday[0].day;
+            return {
+                date: date,
+                maxTemp: forecast.maxtemp_f,
+                minTemp: forecast.mintemp_f,
+                avgTemp: forecast.avgtemp_f,
+                condition: determineWeatherCondition(forecast.avgtemp_f, forecast.maxtemp_f, forecast.avgtemp_f),
+            };
+        }
+        else {
+            const current = data.current;
+            return {
+                date: new Date().toISOString().split('T')[0],
+                temp: current.temp_f,
+                condition: determineWeatherCondition(current.temp_f),
+            };
+        }
     } catch (error) {
         console.error('Error fetching weather data', error);
         return null;
