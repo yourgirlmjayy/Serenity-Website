@@ -41,6 +41,13 @@ export const SideBarData = () => [
   },
 
   {
+    title: "Recommendations",
+    icon: <FiIcons.FiActivity />,
+    path: "/recommendations",
+    cName: "nav-text",
+  },
+
+  {
     title: "LogOut",
     icon: <FiIcons.FiLogOut />,
     path: "/logout",
