@@ -43,7 +43,7 @@ const generateRecommendations = async (userId, currentDate) => {
         }
     }
 
-    const currentWeatherCondition = categorizeWeather(weatherData[normalizedCurrentDate]);
+    const currentWeatherCondition = categorizeWeather(weatherData[normalizedCurrentDate].condition);
     // create empty array to store user's recommendations based on data 
     const recommendations = [];
 
@@ -78,6 +78,15 @@ const generateRecommendations = async (userId, currentDate) => {
             }
         }
     });
+
+    if (recommendations.length === 0) {
+        // return various recommendations based on weather and default mood category if no suitable recommendations were found for the user
+        Object.keys(RecommendationMap).forEach(activity => {
+            const defaultRecommendations = RecommendationMap[activity]['neutral'][currentWeatherCondition];
+            const randomIndex = Math.floor(Math.random() * defaultRecommendations.length);
+            recommendations.push(defaultRecommendations[randomIndex]);
+        });
+    };
     return recommendations;
 };
 
