@@ -12,7 +12,8 @@ const userFeed = require('./Routes/userFeed.js');
 const journalRoutes = require('./Routes/journals.js');
 const userProfile = require('./Routes/profile.js');
 const pastJournalsRoutes = require('./Routes/allJournals.js');
-
+const weatherRoutes = require('./Routes/weather.js');
+const recommendedActivitiesRoutes = require('./Routes/recommendations.js');
 
 const express = require('express');
 const { join } = require('@prisma/client/runtime/library');
@@ -31,12 +32,15 @@ app.use(userFeed);
 app.use(journalRoutes);
 app.use(userProfile);
 app.use(pastJournalsRoutes);
+app.use(weatherRoutes);
+app.use(recommendedActivitiesRoutes);
 
 // GET requests for /users -> All users
 app.get('/users', async (req, res) => {
   const users = await prisma.user.findMany()
   res.json(users)
-})
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
