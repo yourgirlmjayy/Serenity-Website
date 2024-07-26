@@ -7,19 +7,39 @@ const { fetchWeatherDataWithAPI, fetchWeatherDatafromDB } = require('../utils/we
 const { fetchUserActivity } = require('../ActivitiesAnalysis/fetchUserData');
 
 router.post('/get-weather', authenticateToken, async (req, res) => {
-    const { userId } = req.user.id;
+    const userId = req.user.id;
     const { latitude, longitude } = req.body;
+    let weather;
 
     try {
-        let weather;
+        // fetch user data to get stored location
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { latitude: true, longitude: true }
+        });
+        let lat = latitude;
+        let lon = longitude;
 
+        // use provided location if available, otherwise use stored location
+        if (user && user.latitude && user.longitude) {
+            lat = user.latitude;
+            lon = user.longitude;
+        }
+
+        else if (latitude && longitude) {
+            // update database with location details
+            await prisma.user.update({
+                where: { id: userId },
+                data: { latitude, longitude }
+            });
+        };
         // Fetch user activity data
         const userEntries = await fetchUserActivity(userId);
 
-        if (latitude && longitude) {
+        if (lat && lon) {
             if (userEntries.length > 0) {
                 // fetch historical weather data for the past seven days if user has entries
-                const weatherPromises = userEntries.map(entry => fetchWeatherDataWithAPI(latitude, longitude, entry.date.toISOString().split('T')[0]));
+                const weatherPromises = userEntries.map(entry => fetchWeatherDataWithAPI(lat, lon, entry.date.toISOString().split('T')[0]));
                 weather = await Promise.all(weatherPromises);
             } else {
                 // get the current weather data for the day if user does not have entries

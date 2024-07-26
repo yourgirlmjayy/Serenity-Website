@@ -30,5 +30,19 @@ const determineWeatherCondition = (tempF, maxTempF = null, minTempF = null) => {
     }
 };
 
-module.exports = { weatherConditions, determineWeatherCondition };
+const weatherBuckets = {
+    sunny: ['Hot', 'Sunny'],
+    rainy: ['Warm', 'Cool'],
+    cold: ['Cold, Windy']
+};
+
+const categorizeWeather = (condition) => {
+    for (const [category, conditions] of Object.entries(weatherBuckets)) {
+        if (conditions.includes(condition)) {
+            return category;
+        }
+    }
+}
+
+module.exports = { weatherConditions, determineWeatherCondition, categorizeWeather, weatherBuckets };
 
