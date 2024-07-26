@@ -3,14 +3,14 @@ const prisma = new PrismaClient();
 require('dotenv').config();
 const express = require('express');
 
-import { categorizeMood } from "../DataAnalysis/analysis";
-import { determineWeatherCondition, weatherConditions } from "../utils/weatherCondition";
-import { fetchUserActivity, fetchUserMoods, fetchStoredLocation } from "../ActivitiesAnalysis/fetchUserData";
-import { RecommendationMap } from "./RecommendationMaps";
-import { categorizeWeather, weatherBuckets } from "../utils/weatherCondition";
-import { getDayOfWeek, getTimeOfDay } from "../utils/dates";
-import { fetchWeatherDataWithAPI, fetchWeatherDatafromDB } from "../utils/weatherDetails";
-import getUserLocation from "../utils/Geolocation";
+const { categorizeMood } = require("../DataAnalysis/analysis");
+const { determineWeatherCondition, weatherConditions } = require("../utils/weatherCondition");
+const { fetchUserActivity, fetchUserMoods, fetchStoredLocation } = require("../ActivitiesAnalysis/fetchUserData");
+const { RecommendationMap } = require("./RecommendationMaps");
+const { categorizeWeather, weatherBuckets } = require("../utils/weatherCondition");
+const { getDayOfWeek, getTimeOfDay } = require("../utils/dates");
+const { fetchWeatherDataWithAPI, fetchWeatherDatafromDB } = require("../utils/weatherDetails");
+const getUserLocation = require("../utils/Geolocation");
 
 
 const aggregateUserMoodData = (userMoods) => {

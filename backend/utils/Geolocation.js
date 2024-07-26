@@ -32,4 +32,4 @@ const getUserLocation = () => {
     })
 };
 
-export default getUserLocation;
+module.exports = { getUserLocation };
