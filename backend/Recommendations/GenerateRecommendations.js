@@ -6,6 +6,13 @@ const { RecommendationMap } = require('./RecommendationMaps');
 const getUserLocation = require('../utils/Geolocation');
 const { categorizeMood } = require('../DataAnalysis/analysis');
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+require('dotenv').config();
+const express = require('express');
+const router = express.Router();
+const authenticateToken = require('../MiddleWare/authenticateToken');
+
 const normalizeDate = (dateString) => {
     return new Date(dateString).toISOString().split('T')[0];
 };
@@ -23,14 +30,17 @@ const generateRecommendations = async (userId, currentDate) => {
     let weatherData = {};
     // fetch stored location from database
     const storedLocation = await fetchStoredLocation(userId);
+    let currentWeatherCondition;
 
     // use stored location or current location of user
     if (storedLocation) {
         // get weather details for current date
         weatherData[normalizedCurrentDate] = await fetchWeatherDataWithAPI(storedLocation.latitude, storedLocation.longitude);
+        currentWeatherCondition = categorizeWeather(weatherData[normalizedCurrentDate].condition);
     } else {
         const location = await getUserLocation();
         weatherData[normalizedCurrentDate] = await fetchWeatherDataWithAPI(location.latitude, location.longitude);
+        currentWeatherCondition = categorizeWeather(weatherData[normalizedCurrentDate].condition);
     }
 
     // fall back to database if geolocation or stored location fails
@@ -40,10 +50,10 @@ const generateRecommendations = async (userId, currentDate) => {
         if (!weatherData[normalizedCurrentDate]) {
             // set default weather condition if no weather data exists
             weatherData[currentDate] = { condition: 'Sunny' };
+            currentWeatherCondition = categorizeWeather(weatherData[currentDate].condition);
         }
     }
 
-    const currentWeatherCondition = categorizeWeather(weatherData[normalizedCurrentDate].condition);
     // create empty array to store user's recommendations based on data 
     const recommendations = [];
 
@@ -87,7 +97,16 @@ const generateRecommendations = async (userId, currentDate) => {
             recommendations.push(defaultRecommendations[randomIndex]);
         });
     };
+
+    await prisma.recommendation.createMany({
+        data: recommendations.map(activity => ({
+            userId,
+            date: new Date(),
+            activity
+        }))
+    });
+
     return recommendations;
 };
 
-module.exports = { generateRecommendations };
+module.exports = { generateRecommendations, normalizeDate };
