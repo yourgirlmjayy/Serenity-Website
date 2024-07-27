@@ -15,6 +15,7 @@ import { SidebarProvider } from "./sidebarcontext/SidebarContext.jsx";
 import ActivityLogSuccess from "./ActivityLogSuccess/ActivityLogSuccess.jsx";
 import JournalEntry from "./Journal/JournalPage.jsx";
 import JournalEntriesPage from "./AllJournalEntries/JournalEntries.jsx";
+import RecommendationsPage from "./RecommendationsPage/RecommendationsPage.jsx";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -56,7 +57,11 @@ function App() {
               path="/all-journal-entries"
               element={<JournalEntriesPage />}
             ></Route>
-            <Route path={"/journal-entry"} element={<JournalEntry />}></Route>
+            <Route path="/journal-entry" element={<JournalEntry />}></Route>
+            <Route
+              path="/recommendations"
+              element={<RecommendationsPage />}
+            ></Route>
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </Router>
