@@ -17,6 +17,11 @@ function LogIn() {
   const { updateUser } = useContext(UserContext);
   const action = "Log in";
 
+  const handleBackButton = () => {
+    //navigate user to home page if exit bbutton is clicked
+    navigate("/");
+  };
+
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -79,6 +84,11 @@ function LogIn() {
 
   return (
     <>
+      <div className="exit-button-container">
+        <button className="exit-button" onClick={handleBackButton}>
+          EXIT
+        </button>
+      </div>
       <div className="sign-in-container">
         <div className="header">
           <div className="text">
@@ -122,6 +132,10 @@ function LogIn() {
           </button>
         </div>
       </div>
+      <p className="sign-up-text">Don't have an account? </p>
+      <p className="sign-up-link" onClick={() => navigate("/get-started")}>
+        Sign-up
+      </p>
     </>
   );
 }
