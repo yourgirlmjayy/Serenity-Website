@@ -210,11 +210,6 @@ function SignUp() {
               <button id="submit" onClick={handleCreate}>
                 Sign Up
               </button>
-              <div className="oauth-button">
-                <button className="google-button">
-                  Sign up with Google <FcGoogle />
-                </button>
-              </div>
               <p id="log-in-text">
                 Already have an account? {""}
                 <span id="log-in-link" onClick={handleLogin}>
