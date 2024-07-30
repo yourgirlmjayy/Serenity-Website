@@ -84,58 +84,60 @@ function LogIn() {
 
   return (
     <>
-      <div className="exit-button-container">
-        <button className="exit-button" onClick={handleBackButton}>
-          EXIT
-        </button>
+      <div className="log-in-page">
+        <div className="log-in-container">
+          <div className="form-container-log-in">
+            <button className="exit-button" onClick={handleBackButton}>
+              EXIT
+            </button>
+            <h4 id="welcome-back-message">Welcome Back</h4>
+            <div className="form-inputs">
+              <div className="input">
+                <img src={email_icon} alt="email_icon" className="email-icon" />
+                <input
+                  type="email"
+                  placeholder="Enter email Id..."
+                  onChange={handleChangeEmail}
+                  value={email}
+                ></input>
+              </div>
+              <div className="input">
+                <img
+                  src={password_icon}
+                  alt="password_icon"
+                  className="password-icon"
+                />
+                <input
+                  type={passwordVisible === false ? "password" : "text"}
+                  placeholder="Password"
+                  onChange={handleChangePassword}
+                  value={password}
+                ></input>
+                <img
+                  className="eye-icon"
+                  src={passwordVisible === true ? view : hide}
+                  alt="hide password"
+                  onClick={handlePasswordVisibility}
+                />
+              </div>
+            </div>
+            <div className="submit-container">
+              <button className="submit" type="submit" onClick={handleLogin}>
+                Log In
+              </button>
+            </div>
+            <p className="sign-up-text">
+              Don't have an account?{" "}
+              <span
+                className="sign-up-link"
+                onClick={() => navigate("/get-started")}
+              >
+                Sign-up
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="sign-in-container">
-        <div className="header">
-          <div className="text">
-            <LoginIcon /> {action}
-          </div>
-          <div className="underline"></div>
-        </div>
-        <div className="inputs">
-          <div className="input">
-            <img src={email_icon} alt="email_icon" className="email-icon" />
-            <input
-              type="email"
-              placeholder="Enter email Id..."
-              onChange={handleChangeEmail}
-              value={email}
-            ></input>
-          </div>
-          <div className="input">
-            <img
-              src={password_icon}
-              alt="password_icon"
-              className="password-icon"
-            />
-            <input
-              type={passwordVisible === false ? "password" : "text"}
-              placeholder="Password"
-              onChange={handleChangePassword}
-              value={password}
-            ></input>
-            <img
-              className="eye-icon"
-              src={passwordVisible === true ? view : hide}
-              alt="hide password"
-              onClick={handlePasswordVisibility}
-            />
-          </div>
-        </div>
-        <div className="submit-container">
-          <button className="submit" type="submit" onClick={handleLogin}>
-            Log In
-          </button>
-        </div>
-      </div>
-      <p className="sign-up-text">Don't have an account? </p>
-      <p className="sign-up-link" onClick={() => navigate("/get-started")}>
-        Sign-up
-      </p>
     </>
   );
 }
