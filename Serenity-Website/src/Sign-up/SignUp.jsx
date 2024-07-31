@@ -93,11 +93,6 @@ function SignUp() {
         return;
       }
 
-      // Return if either validation fails
-      if (!(isEmailValid && isPasswordValid && isConfirmPasswordValid)) {
-        return;
-      }
-
       // Proceed with valid input
       const userDetails = {
         email: email,
