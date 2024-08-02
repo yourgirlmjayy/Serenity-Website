@@ -1,28 +1,42 @@
 @font-face {
-  font-family: sarlotte;
-  src: url("../assets/Sarlotte.otf");
+  font-family: peach;
+  src: url("../assets/DraftCartoon-Bold.ttf");
 }
+
 @font-face {
-  font-family: monoline;
-  src: url("../assets/AestheticMonoline.otf");
+  font-family: mood-font;
+  src: url("../assets/Branquignol.ttf");
 }
 
 .mood-entry {
   text-align: center;
-  margin-top: 50px;
-  font-family: sarlotte;
+  margin-top: 0;
+  padding-top: 0;
 }
 
-.prompt {
-  font-size: 30px;
+.mood {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.prompt-container {
+  background-color: #d8eefe;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+  margin-top: -15px;
+}
+
+#prompt {
+  font-size: 50px;
   font-weight: 400;
   font-style: bold;
-  color: rgb(17, 58, 146);
-}
-.current-date {
-  margin-bottom: 20px;
-  font-size: 18px;
-  color: gray;
+  color: #007bff;
+  font-family: peach;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .back-button {
@@ -45,35 +59,33 @@
   margin: 100px 0;
 }
 
+.mood-and-activities {
+  padding-left: 12px;
+}
+
 .mood-button {
-  background: none;
-  border: none;
-  font-size: 34px;
-  cursor: pointer;
-  transition: color 0.3 ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  color: #0572df;
+  font-family: mood-font;
+  margin: 10px;
+  color: rgb(44, 114, 172);
 }
 
 .mood-button:hover {
-  color: #0535c4;
+  border: none;
+  color: rgb(15, 96, 189);
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease-in-out;
   transform: scale(1.1);
 }
 
 .mood-button.selected {
-  font-weight: bold;
-  color: rgb(63, 63, 255);
+  color: navy;
 }
 
 .mood-button span {
-  font-size: 18px;
+  font-size: 24px;
   margin-top: 10px;
 }
 
