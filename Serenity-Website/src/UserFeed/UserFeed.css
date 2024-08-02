@@ -2,8 +2,12 @@
   font-family: sarlotte;
   src: url("../assets/Sarlotte.otf");
 }
+
+@font-face {
+  font-family: text-font;
+  src: url("../assets/DraftCartoon-Bold.ttf");
+}
 .user-feed {
-  padding: 20px;
   color: #3d6a9b;
 }
 
@@ -12,9 +16,24 @@
   transition: margin-left 0.3s ease-in-out;
 }
 
-.user-feed h2 {
+.user-feed-banner {
+  background-color: #bbe1fd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 3px;
+  margin-top: -10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: text-font;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+.catch-up-message {
   text-align: center;
-  color: rgb(17, 58, 146);
+  font-size: 39px;
+  color: rgb(26, 103, 142);
   margin-bottom: 20px;
 }
 
@@ -84,10 +103,11 @@
 }
 
 .entries-list {
-  background-color: #fff;
-  padding: 15px;
+  background-color: #9dd3eb;
+  padding: 15px 20px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -107,15 +127,13 @@
   font-size: 1em;
 }
 
-.entries-list {
-  margin-top: 20px;
-}
-
 .entry-item {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 12px;
   padding: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
+  background-color: #f2e8e8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .error-message {
@@ -147,16 +165,18 @@
 
 .mood p {
   color: #3d6a9b;
+  text-transform: uppercase;
 }
 
 .mood-icon {
   color: dodgerblue;
+  background-color: #0056b3;
   font-size: 2rem;
 }
 
-.wink-icon {
-  background-color: #d8eefe;
-  color: rgba(30, 9, 168, 0.268);
+.time-icon {
+  width: 35px;
+  vertical-align: middle;
 }
 
 .entry-content .mood,

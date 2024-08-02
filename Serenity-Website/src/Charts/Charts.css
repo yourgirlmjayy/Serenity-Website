@@ -1,0 +1,26 @@
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 70px;
+}
+
+.doughnut-container {
+  width: 278px;
+  height: 300px;
+  margin: auto;
+}
+.doughnut-container p {
+  text-align: center;
+}
+
+.bar-chart-container {
+  width: 600px;
+  height: 400px;
+  margin: auto;
+}
+
+.bar-chart-container p {
+  text-align: center;
+}
