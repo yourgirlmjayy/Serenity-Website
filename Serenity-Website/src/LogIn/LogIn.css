@@ -1,104 +1,162 @@
-body{
-    height: 100vh;
-}
-.sign-in-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-    margin-top: 130px;
-    background: #fff;
-    padding-bottom: 30px;
-    width: 600px;
-    border-radius: 8px;
+body {
+  height: 100vh;
 }
 
-.header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 9px;
-    width: 100%;
-    margin-top: 30px;
+.log-in-page {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 100px;
+  align-items: center;
+  background: url("../assets/loginimg.png") no-repeat center center;
+  background-size: cover;
 }
 
-.text{
-    color: #4169e1;
-    font-size: 30px;
-    font-weight: 500;
+.log-in-container {
+  background: rgb(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 400px;
+  border-radius: 8px;
 }
 
-.underline{
-    width: 62px;
-    height: 6px;
-    background: #4169e1;
-    border-radius: 9px;
+.form-container-log-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.inputs{
-    margin-top: 55px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+.form-inputs {
+  width: 100%;
 }
 
-.input{
-    display: flex;
-    align-items: center;
-    margin: auto;
-    width: 480px;
-    height: 80px;
-    background: #eaeaea;
-    border-radius: 6px;
+.input {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
 }
 
-.input img{
-    margin: 0px 30px;
+.input img {
+  margin: 0px 30px;
 }
 
-.input input{
-    height: 50px;
-    width: 400px;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #797979;
-    font-size: 19px;
+.input input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  color: #797979;
+  font-size: 16px;
 }
 
-.user-icon{
-    width: 19px;
+.user-icon {
+  width: 19px;
 }
 
-.password-icon{
-    width: 21px;
+.password-icon {
+  width: 21px;
 }
 
-.email-icon{
-    width: 19px;
+.email-icon {
+  width: 19px;
 }
 
-.eye-icon{
-    width: 15px;
+.eye-icon {
+  width: 15px;
 }
 
-.submit-container{
-    display: flex;
-    gap: 30px;
-    margin: 60px auto;
+.submit-container {
+  width: 100%;
 }
 
-.submit{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 220px;
-    height: 59px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: rgb(49, 48, 48);
-    background: #4169e1;
-    border-radius: 50px;
-    font-size: 19px;
-    font-weight: 300;
-    cursor: pointer;
+.submit {
+  width: 100%;
+  padding: 15px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: white;
+  border: none;
+  background: #4169e1;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit:hover {
+  transition: transform 0.2s ease-in, background-color 0.2s ease-out;
+  transform: scale(1.05);
+  background-color: #4169e1;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sign-up-text {
+  text-align: center;
+  color: #265cff;
+  font-size: 18px;
+  margin-top: 12px;
+}
+
+.sign-up-link {
+  text-align: center;
+  text-decoration: underline;
+  color: #1682ef;
+}
+
+.sign-up-link:hover {
+  cursor: pointer;
+  color: rgb(14, 56, 155);
+}
+
+.exit-button {
+  align-self: flex-end;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  color: #418ce1;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.exit-button:hover {
+  transition: transform 0.3s ease-in, background-color 0.3s ease-out;
+  transform: scale(1.05);
+  background-color: #ca1c1c;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#welcome-back-message {
+  color: #1682ef;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .log-in-page {
+    padding-right: 20px;
+  }
+  .log-in-container {
+    width: 80%;
+    padding: 20px;
+  }
+
+  .input img {
+    width: 20px;
+  }
+
+  .submit {
+    padding: 10px;
+  }
+
+  .sign-up-text {
+    font-size: 12px;
+  }
 }

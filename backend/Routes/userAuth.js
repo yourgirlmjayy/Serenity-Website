@@ -17,9 +17,11 @@ const authenticateToken = require('../MiddleWare/authenticateToken');
 router.post("/create", async (req, res) => {
   const { email, password } = req.body;
 
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Please fill out all fields' });
   }
+
 
   try {
     // Check if email already exists
@@ -31,18 +33,31 @@ router.post("/create", async (req, res) => {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
+
     // Hash the password using bcrypt
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+
 
     // Create a new user in the database using Prisma
     const newUser = await prisma.user.create({
       data: { email, password: hashedPassword }
     });
 
+
+    const token = jwt.sign({ id: newUser.id, email: newUser.email }, SECRET_KEY, { expiresIn: '1h' })
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600000,
+    });
+
+
     // Return a successful response
     res.status(201).json({ user: newUser });
   } catch (error) {
     console.error(error);
+
 
     // Return a 400 error response if email is taken
     if (error.code === "P2002" && error.meta.target.includes("email")) {
@@ -54,6 +69,7 @@ router.post("/create", async (req, res) => {
     }
   }
 });
+
 
 router.post("/login", async (req, res) => {
 
