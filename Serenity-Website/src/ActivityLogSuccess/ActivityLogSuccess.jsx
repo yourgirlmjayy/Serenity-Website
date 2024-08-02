@@ -11,9 +11,6 @@ function ActivityLogSuccess() {
   const handleHomeButton = () => {
     navigate("/user-feed");
   };
-  const handleNewEntry = () => {
-    navigate("/mood-and-activities");
-  };
 
   return (
     <div className="success-page">
