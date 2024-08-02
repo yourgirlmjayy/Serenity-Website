@@ -1,3 +1,11 @@
+.mood-and-activities-page {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.mood-and-activities-page.shifted {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+}
 .entry-button {
   align-items: center;
   padding: 10px 20px;
@@ -7,7 +15,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .entry-button:hover {
   border-color: #007074;
@@ -20,63 +28,56 @@
   flex-direction: column;
   align-items: center;
 }
-.custom-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(2px);
-}
-
-.custom-modal {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content {
-  text-align: center;
-}
-
-.modal-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-.modal-button:hover {
-  background-color: #0056b3;
-}
-
-.modal-button-cancel {
-  background-color: #e94846;
-}
-
-.modal-button-cancel:hover {
-  background-color: #b82323;
-}
-.mood-and-activities-page {
-  transition: margin-left 0.3s ease-in-out;
-}
-
-.mood-and-activities-page.shifted {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out;
-}
 
 .error-memo {
   text-align: center;
   color: #b82323;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navigation-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-left: 790px;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  margin-bottom: 27px;
+}
+
+.previous-button {
+  background-color: gray;
+  margin-right: 20px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.previous-button:hover {
+  transition: transform 0.3s ease-in, background-color 0.3s ease-out;
+  transform: scale(1.05);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.next-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.next-button:hover {
+  transition: transform 0.3s ease-in, background-color 0.3s ease-out;
+  transform: scale(1.05);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

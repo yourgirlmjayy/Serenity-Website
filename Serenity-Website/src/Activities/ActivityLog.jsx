@@ -34,10 +34,9 @@ import {
   faBaseball,
 } from "@fortawesome/free-solid-svg-icons";
 
-function ActivityLog({ setActivities }) {
-  const [categories, setCategories] = useState([]);
+function ActivityLog({ setActivities, currentCategoryIndex, categories }) {
   const [selectedActivities, setSelectedActivities] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
+
   const iconMap = {
     faBed: faBed,
     faBed: faBed,
@@ -67,28 +66,7 @@ function ActivityLog({ setActivities }) {
     faBaseball: faBaseball,
   };
 
-  const backendURl = import.meta.env.VITE_BACKEND_ADDRESS;
-  const url = `${backendURl}/categories`;
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        setErrorMessage("Error fetching categories");
-      }
-    };
-    fetchCategories();
-  }, [url]);
+  const currentCategory = categories[currentCategoryIndex];
 
   const handleOptionSelect = (category, option) => {
     setSelectedActivities((prevState) => {
@@ -96,57 +74,54 @@ function ActivityLog({ setActivities }) {
       const newOptions = categoryOptions.includes(option)
         ? categoryOptions.filter((opt) => opt !== option)
         : [...categoryOptions, option];
-      return { ...prevState, [category]: newOptions };
+
+      const updatedActivities = { ...prevState, [category]: newOptions };
+      setActivities(updatedActivities);
+      return updatedActivities;
     });
   };
-  useEffect(() => {
-    setActivities(selectedActivities);
-  }, [selectedActivities, setActivities]);
 
   return (
-    <>
-      <div className="activities-page">
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {categories.map((category) => (
-          <div className="category-container" key={category.id}>
-            <h4 className="category-name">{category.category}</h4>
-            <div className="options-container">
-              {category.options.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() =>
-                    handleOptionSelect(category.category, option.option)
-                  }
-                  className={`option-button ${
-                    selectedActivities[category.category] &&
-                    selectedActivities[category.category].includes(
-                      option.option
-                    )
-                      ? "selected"
-                      : ""
-                  }`}
-                >
-                  {option.icon && (
-                    <FontAwesomeIcon
-                      icon={iconMap[option.icon]}
-                      className={`option-icon ${
-                        selectedActivities[category.category] &&
-                        selectedActivities[category.category].includes(
-                          option.option
-                        )
-                          ? "selected-option-icon"
-                          : ""
-                      }`}
-                    />
-                  )}
-                  <span className="option-name">{option.option}</span>
-                </button>
-              ))}
-            </div>
+    <div className="activities-page">
+      {currentCategory && (
+        <div className="category-container">
+          <div className="category-name-container">
+            <h2 className="category-name">{currentCategory.category}</h2>
           </div>
-        ))}
-      </div>
-    </>
+          <div className="options-container">
+            {currentCategory.options.map((option) => (
+              <button
+                key={option.id}
+                onClick={() =>
+                  handleOptionSelect(currentCategory.category, option.option)
+                }
+                className={`option-button ${
+                  selectedActivities[currentCategory.category]?.includes(
+                    option.option
+                  )
+                    ? "selected"
+                    : ""
+                }`}
+              >
+                {option.icon && (
+                  <FontAwesomeIcon
+                    icon={iconMap[option.icon]}
+                    className={`option-icon ${
+                      selectedActivities[currentCategory.category]?.includes(
+                        option.option
+                      )
+                        ? "selected-option-icon"
+                        : ""
+                    }`}
+                  />
+                )}
+                <span className="option-name">{option.option}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

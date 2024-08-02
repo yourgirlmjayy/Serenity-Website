@@ -11,9 +11,6 @@ function ActivityLogSuccess() {
   const handleHomeButton = () => {
     navigate("/user-feed");
   };
-  const handleNewEntry = () => {
-    navigate("/mood-and-activities");
-  };
 
   return (
     <div className="success-page">
@@ -24,12 +21,6 @@ function ActivityLogSuccess() {
           <button className="home-button" onClick={handleHomeButton}>
             <FontAwesomeIcon icon={faHouse} className="home-icon" /> Go to home
             page
-          </button>
-        </ToolTip>
-        <ToolTip text="Log new entries for the day">
-          <button className="new-entry-button" onClick={handleNewEntry}>
-            <FontAwesomeIcon icon={faFileCirclePlus} className="entry-icon" />{" "}
-            Log new entry
           </button>
         </ToolTip>
       </div>
