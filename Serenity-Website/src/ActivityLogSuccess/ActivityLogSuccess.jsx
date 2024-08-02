@@ -26,12 +26,6 @@ function ActivityLogSuccess() {
             page
           </button>
         </ToolTip>
-        <ToolTip text="Log new entries for the day">
-          <button className="new-entry-button" onClick={handleNewEntry}>
-            <FontAwesomeIcon icon={faFileCirclePlus} className="entry-icon" />{" "}
-            Log new entry
-          </button>
-        </ToolTip>
       </div>
     </div>
   );
