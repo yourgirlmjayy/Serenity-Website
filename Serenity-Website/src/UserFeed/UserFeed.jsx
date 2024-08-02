@@ -1,4 +1,5 @@
 import "./UserFeed.css";
+import Footer from "../Footer/Footer";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,9 +9,11 @@ import {
   faSmile,
   faSmileBeam,
   faSmileWink,
+  faBackward,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
 import ToolTip from "../ToolTip/ToolTip";
+import timeCapsule from "../assets/sandglass.png";
 import { useSidebar } from "../sidebarcontext/SidebarContext";
 import {
   faBed,
@@ -45,13 +48,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useNavigate } from "react-router-dom";
-const moodIcons = {
+import angry from "../assets/angry.png";
+import sad from "../assets/sad.png";
+import neutral from "../assets/neutral.png";
+import happy from "../assets/happy.png";
+import excited from "../assets/excited.png";
+import Charts from "../Charts/Charts";
+
+const moods = {
   // mood object
-  angry: faAngry,
-  sad: faFaceSadTear,
-  neutral: faFaceMeh,
-  happy: faSmile,
-  excited: faSmileBeam,
+  angry: <img src={angry} />,
+  sad: <img src={sad} />,
+  neutral: <img src={neutral} />,
+  happy: <img src={happy} />,
+  excited: <img src={excited} />,
 };
 
 function UserFeed() {
@@ -141,13 +151,16 @@ function UserFeed() {
     <>
       <Header />
       <div className={`user-feed ${isSidebarOpen ? "shifted" : ""}`}>
-        <h2>
-          Get Caught Up{" "}
-          <FontAwesomeIcon icon={faSmileWink} className="wink-icon" />
-        </h2>
-
+        <div className="user-feed-banner">
+          <h2 className="catch-up-message">
+            Get Caught Up!{" "}
+            <span>
+              <img src={timeCapsule} className="time-icon" alt="Time Capsule" />
+            </span>
+          </h2>
+        </div>
+        {userEntries.length > 0 && <Charts />}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-
         <div className="entries-list">
           {userEntries.length === 0 ? (
             <div className="empty-feed">
@@ -157,50 +170,54 @@ function UserFeed() {
                 </button>
               </ToolTip>
               <p className="error-message">
-                You don't have any activities and moods logged. <br /> <br />{" "}
+                You don't have any activities and moods logged. <br /> <br />
                 Click the plus button to log moods and activities.
               </p>
             </div>
           ) : (
-            userEntries.map((entry) => (
-              <div key={entry.id} className="entry-item">
-                <div className="entry-header">
-                  <h3 className="date">{formatDate(entry.date)}</h3>
-                  <FontAwesomeIcon
-                    className="mood-icon"
-                    icon={moodIcons[entry.moods[0]?.mood || "good"]}
-                  />
-                </div>
-                <div className="entry-content">
-                  <div className="mood">
-                    <p className="mood">
-                      MOOD:{" "}
-                      {entry.moods.map((mood) => mood.mood).join("   ,  ")}
-                    </p>
+            userEntries
+              .filter(
+                (entry) =>
+                  entry.moods.length > 0 ||
+                  entry.activities.length > 0 ||
+                  entry.journals.length > 0
+              )
+              .map((entry) => (
+                <div key={entry.id} className="entry-item">
+                  <div className="entry-header">
+                    <h3 className="date">{formatDate(entry.date)}</h3>
+                    {moods[entry.moods[0]?.mood]}
                   </div>
-                  <div className="activities">
-                    <ul>
-                      {entry.activities.map((activity) => (
-                        <li key={activity.id}>
-                          <FontAwesomeIcon
-                            className="activity-icon"
-                            icon={
-                              iconMap[activity.activityOption.option] || faSmile
-                            }
-                          />
-                          {activity.activityOption.option}
-                        </li>
+                  <div className="entry-content">
+                    <div className="mood">
+                      <p className="mood">
+                        {entry.moods.map((mood) => mood.mood).join(", ")}
+                      </p>
+                    </div>
+                    <div className="activities">
+                      <ul>
+                        {entry.activities.map((activity) => (
+                          <li key={activity.id}>
+                            <FontAwesomeIcon
+                              className="activity-icon"
+                              icon={
+                                iconMap[activity.activityOption.option] ||
+                                faSmile
+                              }
+                            />
+                            {activity.activityOption.option}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="journals">
+                      {entry.journals.map((journal) => (
+                        <span key={journal.id}>{journal.content}</span>
                       ))}
-                    </ul>
-                  </div>
-                  <div className="journals">
-                    {entry.journals.map((journal) => (
-                      <span key={journal.id}>{journal.content}</span>
-                    ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ))
           )}
         </div>
         {isModalOpen && (
@@ -226,6 +243,7 @@ function UserFeed() {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 }
