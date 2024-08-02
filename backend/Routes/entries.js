@@ -49,11 +49,14 @@ router.post('/log-mood-activity', authenticateToken, async (req, res) => {
       include: { moods: true, activities: true }
     });
 
-    // create new entry if no userEntry is found for that day
-    if (userEntry) {
+    const userMoods = userEntry.moods;
+    const userActivities = userEntry.activities;
+    // return 400 status only if user already logged mood and activities
+    if (userMoods.length > 0 && userActivities.length > 0) {
       return res.status(400).json({ error: "Mood and activities logged for today" });
     }
 
+    // create new entry if no userEntry is found for that day
     userEntry = await prisma.userEntry.create({
       data: {
         userId: userId,
