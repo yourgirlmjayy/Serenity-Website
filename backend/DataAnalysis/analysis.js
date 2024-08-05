@@ -205,4 +205,4 @@ const analyzeUserData = (entries) => {
     return { moodFrequency, activityFrequency, moodTrends, activityAndMoodCorrelations };
 };
 
-module.exports = { analyzeUserData, categorizeMood };
+module.exports = { analyzeUserData, categorizeMood, calculateMoodFrequency, calculateActivityFrequency };
