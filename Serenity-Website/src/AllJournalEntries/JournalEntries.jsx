@@ -25,6 +25,7 @@ const JournalEntriesPage = () => {
           credentials: "include",
         });
         const data = await response.json();
+        console.log(data);
         setEntries(data);
         setLoading(false);
       } catch (error) {
@@ -40,7 +41,7 @@ const JournalEntriesPage = () => {
   const handleFilterChange = (e) => setFilterOption(e.target.value);
 
   const handleEntryClick = (id) => {
-    navigate("journal-entry", { replace: true });
+    navigate("/journal-entry", { replace: true });
   };
 
   return (
@@ -70,20 +71,24 @@ const JournalEntriesPage = () => {
           </div>
           <ToolTip text="click to view full journal">
             <ul className="journal-list">
-              {entries.map((entry) => (
-                <li
-                  key={entry.id}
-                  onClick={() => handleEntryClick(entry.id)}
-                  className="journal-entry"
-                >
-                  <div className="journal-prompt">
-                    <strong>
-                      {entry.refinedPrompt ? entry.refinedPrompt : ""}
-                    </strong>
-                  </div>
-                  <div>{entry.content ? entry.content.split(".")[0] : ""}</div>
-                </li>
-              ))}
+              {entries
+                .filter((entry) => entry.content && entry.content.trim())
+                .map((entry) => (
+                  <li
+                    key={entry.id}
+                    onClick={() => handleEntryClick(entry.id)}
+                    className="journal-entry"
+                  >
+                    <div className="journal-prompt">
+                      <strong>
+                        {entry.refinedPrompt ? entry.refinedPrompt : ""}
+                      </strong>
+                    </div>
+                    <div>
+                      {entry.content ? entry.content.split(".")[0] : ""}
+                    </div>
+                  </li>
+                ))}
             </ul>
           </ToolTip>
         </div>

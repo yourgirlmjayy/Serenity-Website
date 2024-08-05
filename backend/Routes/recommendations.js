@@ -11,9 +11,8 @@ router.get('/recommendations', authenticateToken, async (req, res) => {
     try {
         const userId = req.user.id;
         const currentDate = new Date();
-        await generateRecommendations(userId, currentDate);
 
-        const recommendations = await prisma.recommendation.findMany({
+        let recommendations = await prisma.recommendation.findMany({
             where: {
                 userId,
                 date: {
@@ -22,6 +21,10 @@ router.get('/recommendations', authenticateToken, async (req, res) => {
                 },
             },
         });
+
+        if (recommendations.length === 0) {
+            recommendations = await generateRecommendations(userId, new Date());
+        }
         res.status(200).json(recommendations);
     } catch (error) {
         console.error('Error fetching recommendations', error);
