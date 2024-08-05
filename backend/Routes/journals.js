@@ -8,19 +8,80 @@ const authenticateToken = require('../MiddleWare/authenticateToken');
 const { analyzeUserData } = require('../DataAnalysis/analysis');
 const { generateJournalPromptWithFeedback } = require('../PromptGeneration/journalPrompt');
 const { fetchUserEntries, fetchFeedbackData, fetchPromptHistory } = require('../PromptGeneration/dataFetch');
+//get date without time
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+async function fetchAndGenerateJournal(userId) {
+
+    const entries = await fetchUserEntries(userId);
+
+    const feedbackData = await fetchFeedbackData(userId);
+
+    const promptHistory = await fetchPromptHistory(userId);
+
+    const analysis = analyzeUserData(entries);
+
+    // Generate a journal prompt using the analysis and other data
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    // extract initial prompt and refined prompt from gemini
+    const result = await generateJournalPromptWithFeedback(analysis, feedbackData, promptHistory, apiKey);
+    const initialPrompt = result.initialPrompt;
+    const refinedPrompt = result.refinedPrompt;
+
+    // create a new journal entry with the refined prompt
+
+    // find user entry for today
+    let userEntry = await prisma.userEntry.findFirst({
+        where: {
+            userId,
+            date: {
+                gte: today,
+                lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+            }
+        },
+        include: {
+            journals: true
+        }
+    });
+
+    if (!userEntry) {
+        userEntry = await prisma.userEntry.create({
+            data: {
+                userId,
+                date: today,
+            }
+        });
+    }
+    console.log({ userEntry });
+
+    const newJournal = await prisma.journal.create({
+        data: {
+            userEntryId: userEntry.id,
+            prompt: initialPrompt,
+            refinedPrompt: refinedPrompt,
+            content: ""
+        }
+    });
+
+    // Link the new journal entry to the user entry
+    await prisma.userEntry.update({
+        where: { id: userEntry.id },
+        data: { journals: { connect: { id: newJournal.id } } }
+    });
+
+    return newJournal;
+};
 
 
-router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
+router.get('/generateJournalPrompt', authenticateToken, async (req, res) => {
     const userId = req.user.id;
+    console.log({ userId });
 
     if (!userId) {
         return res.status(400).json({ error: `User ${userId} not found!` })
     }
-
-    //get date without time
-    const today = new Date();
-    // set time of the day to be midnight
-    today.setHours(0, 0, 0, 0);
 
     try {
         // find user entry for today
@@ -47,51 +108,15 @@ router.post('/generateJournalPrompt', authenticateToken, async (req, res) => {
         }
 
         // check if user entry has journals for that day
-        if (userEntry && userEntry.journals && userEntry.journals.length > 0) {
-
+        if (userEntry?.journals?.length > 0) {
             // get the most recent journal
             const journal = userEntry.journals[0];
+            console.log({ journal });
             return res.status(200).json({ message: 'Journal already exists for today', initialPrompt: journal.initialPrompt, refinedPrompt: journal.refinedPrompt, journalId: journal.id, content: journal.content });
-        }
-
-        else {
-            //fetch user data for the past week for analysis
-
-            const entries = await fetchUserEntries(userId);
-
-            const feedbackData = await fetchFeedbackData(userId);
-
-            const promptHistory = await fetchPromptHistory(userId);
-
-            const analysis = analyzeUserData(entries);
-
-            // Generate a journal prompt using the analysis and other data
-            const apiKey = process.env.GEMINI_API_KEY;
-
-            // extract initial prompt and refined prompt from gemini
-            const result = await generateJournalPromptWithFeedback(analysis, feedbackData, promptHistory, apiKey);
-            const initialPrompt = result.initialPrompt;
-            const refinedPrompt = result.refinedPrompt;
-
-            // create a new journal entry with the refined prompt
-
-            const newJournal = await prisma.journal.create({
-                data: {
-                    userEntryId: userEntry.id,
-                    prompt: initialPrompt,
-                    refinedPrompt: refinedPrompt,
-                    content: ""
-                }
-            });
-
-            // Link the new journal entry to the user entry
-            await prisma.userEntry.update({
-                where: { id: userEntry.id },
-                data: { journals: { connect: { id: newJournal.id } } }
-            });
-
-            return res.status(201).json({ message: 'Journal successfully created', initialPrompt: initialPrompt, refinedPrompt: refinedPrompt, journalId: newJournal.id, content: newJournal.content });
-
+        } else {
+            // if the user entry does not exist, create one and generate journal
+            const newJournal = await fetchAndGenerateJournal(userId);
+            return res.status(201).json({ message: 'Journal succesfully created', initialPrompt: newJournal.initialPrompt, refinedPrompt: newJournal.refinedPrompt, journalId: newJournal.id, content: newJournal.content });
         }
 
     } catch (error) {
