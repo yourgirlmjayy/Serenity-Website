@@ -67,7 +67,7 @@ const createUniqueList = (items) => {
 const generatePrompt = (description, items) => {
     const uniqueItems = createUniqueList(items);
     const itemList = uniqueItems.join(', ');
-    return `You've been experiencing ${description}: ${itemList}. Do you want to talk about this?`;
+    return `You've been experiencing ${description}: ${itemList}. Do you want to journal about this?`;
 };
 
 // Define rules for prompt generation
@@ -135,7 +135,7 @@ const rules = [
                 const moodsArray = moodTrends.flat();
                 if (moodsArray && moodsArray.length > 0) {
                     const lastMood = moodsArray[moodsArray.length - 1];
-                    return `It seems like you're feeling ${lastMood}. Do you want to share why you feel this way?`;
+                    return `It seems like you're feeling ${lastMood}. Do you want to journal why you feel this way?`;
                 }
             }
             return 'How are you feeling today?';
