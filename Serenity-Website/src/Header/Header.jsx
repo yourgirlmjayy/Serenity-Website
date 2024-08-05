@@ -24,10 +24,12 @@ function Header() {
 
   return (
     <>
-      <div className={`banner ${isSidebarOpen ? "shifted" : ""}`}>
-        <div className="app-header">
-          <SideBar />
-          <div className={`header-content ${isSidebarOpen ? "shifted" : ""}`}>
+      <div className={`banner`}>
+        <SideBar />
+        <div className={`app-header${isSidebarOpen ? "shifted" : ""}`}>
+          <div className={"header-content"}>
+            <div style={{ flex: 1 }}></div>{" "}
+            {/* This div is used to push the app name and logout button apart */}
             <h1 className="app-name">Serenity 🧚🏼</h1>
             <button className="log-out-button" onClick={handleLogOut}>
               Logout
