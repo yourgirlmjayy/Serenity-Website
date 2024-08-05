@@ -54,7 +54,6 @@ async function fetchAndGenerateJournal(userId) {
             }
         });
     }
-    console.log({ userEntry });
 
     const newJournal = await prisma.journal.create({
         data: {
@@ -77,7 +76,6 @@ async function fetchAndGenerateJournal(userId) {
 
 router.get('/generateJournalPrompt', authenticateToken, async (req, res) => {
     const userId = req.user.id;
-    console.log({ userId });
 
     if (!userId) {
         return res.status(400).json({ error: `User ${userId} not found!` })
@@ -111,7 +109,6 @@ router.get('/generateJournalPrompt', authenticateToken, async (req, res) => {
         if (userEntry?.journals?.length > 0) {
             // get the most recent journal
             const journal = userEntry.journals[0];
-            console.log({ journal });
             return res.status(200).json({ message: 'Journal already exists for today', initialPrompt: journal.initialPrompt, refinedPrompt: journal.refinedPrompt, journalId: journal.id, content: journal.content });
         } else {
             // if the user entry does not exist, create one and generate journal
