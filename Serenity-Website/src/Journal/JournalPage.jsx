@@ -71,7 +71,7 @@ const JournalEntry = () => {
           setUpVotes(data.upvote);
           setDownVotes(data.downvote);
           setJournalId(data.id);
-          setIsSubmitted(true);
+          setIsSubmitted(data.content !== "");
         }
 
         // if journal id is null, check if the journal exists for the day
@@ -91,7 +91,7 @@ const JournalEntry = () => {
             setIsFavorite(journal.favorite);
             setUpVotes(journal.upvote);
             setDownVotes(journal.downvote);
-            setIsSubmitted(true);
+            setIsSubmitted(journal.content !== "");
 
             // navigate to the journal entry page with the journal id
             navigate("/journal-entry");
@@ -100,7 +100,7 @@ const JournalEntry = () => {
           // if journal has not already been created, make a post request to the api
           else {
             const createResponse = await fetch(promptUrl, {
-              method: "POST",
+              method: "GET",
               credentials: "include",
               headers: {
                 "Content-Type": "application/json",

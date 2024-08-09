@@ -1,54 +1,65 @@
-body {
-  margin: 0;
-  padding: 0;
+header {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .banner {
   background-color: #326ba8;
-  width: 101%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
 .app-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-}
-.app-logo {
-  padding-top: 10px;
-  width: 100px;
-  height: 90px;
-  padding-bottom: 5px;
+  position: relative;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
 .app-name {
-  font-size: 30px;
+  font-size: 25px;
   color: #022688;
   padding: 10px;
   text-align: center;
+  align-items: center;
 }
-.log-out-button {
-  border: 1px solid transparent;
-  color: #0a2d8c;
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 0;
 }
+
 .log-out-button {
+  display: flex;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: sans-serif;
-  color: #022688;
+  color: #ffffff;
   background-color: transparent;
   transition: border-color 0.25s;
 }
+
 .log-out-button:hover {
   cursor: pointer;
-  color: rgb(237, 13, 13);
+  color: white;
 }
-button:focus,
-button:focus-visible {
-  outline: 2px auto -webkit-focus-ring-color;
-}
-.header-content {
-  display: flex;
+
+.app-header.shifted {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
 }
