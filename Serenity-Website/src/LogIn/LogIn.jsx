@@ -7,7 +7,7 @@ import password_icon from "../assets/password.png";
 import hide from "../assets/hide.png";
 import view from "../assets/view.png";
 import { UserContext } from "../../../UserContext";
-import LoginIcon from "@mui/icons-material/Login";
+
 
 function LogIn() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,7 +15,7 @@ function LogIn() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { updateUser } = useContext(UserContext);
-  const action = "Log in";
+
 
   const handleBackButton = () => {
     //navigate user to home page if exit bbutton is clicked
